@@ -1,0 +1,110 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+    font-weight: normal;
+    font-size: 14px;
+    text-align: center;
+    font-family: Verdana;
+}
+
+header, main {
+    padding: 20px;
+}
+
+header {
+    background-color: darkgray;
+    color: white;
+}
+
+h1 {
+    font-size: 20px;
+}
+
+a {
+    color: inherit;
+}
+
+h2 {
+    font-size: 17px;
+    padding: 20px;
+}
+
+.user-recipes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: column;
+}
+
+@media screen and (min-width: 650px) {
+    .user-recipes {
+        flex-direction: row;
+    }
+}
+
+.user-recipes .recipe {
+    border: 1px solid darkgray;
+    flex-basis: 30%;
+    margin: 20px;
+}
+
+.user-recipes .recipe .image {
+    height: 200px;
+    background-size: cover;
+    background-position: center center;
+    background-color: darkolivegreen;
+}
+
+.user-recipes .recipe h3 {
+    font-size: 15px;
+    padding: 15px;
+}
+
+.user-recipes .recipe p {
+    padding: 0 15px 15px 15px;
+}
+
+.tag-container {
+    margin: 10px 20px 20px 20px;
+}
+
+.tag-container .tag {
+    background-color: darkgray;
+    color: white;
+    padding: 3px 7px 3px 7px;
+    margin: 0 10px 10px 10px;
+    border-radius: 5px;
+}
+
+.user-comments {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
+}
+
+@media screen and (min-width: 650px) {
+    .user-comments {
+        flex-direction: row;
+    }
+}
+
+.user-comments .comment {
+    border: 1px solid darkgray;
+    flex-basis: 30%;
+    margin: 10px;
+}
+
+.user-comments .comment .response-img {
+    height: 200px;
+    background-size: cover;
+    background-position: center center;
+    background-color: lightgreen;
+}
+
+.user-comments .comment p {
+    padding: 15px 15px 15px 15px;
+}
