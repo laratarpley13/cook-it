@@ -9,7 +9,7 @@ function UserView() {
             <a href="#">Add Recipe</a>
             <a href="#">Sign Out</a>
         </header>
-        <body>
+        <div>
             <h2>User's Recipes</h2>
             <section class="user-recipes">
                 <div class="recipe">
@@ -66,7 +66,7 @@ function UserView() {
                     <p>A fantastic recipe!</p>
                 </div>
             </section>
-        </body>  
+        </div>  
     </>
   );
 }

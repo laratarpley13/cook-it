@@ -9,7 +9,7 @@ function EditRecipe() {
             <a href="#">Add Recipe</a>
             <a href="#">Sign Out</a>
         </header>
-        <body>
+        <div>
             <h2>Edit Recipe</h2>
             <section class="edit-recipe">
                 <form>
@@ -48,7 +48,7 @@ function EditRecipe() {
                     <button type="submit">Submit</button>
                 </form>
             </section>
-        </body>
+        </div>
     </>
   );
 }

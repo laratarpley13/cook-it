@@ -1,14 +1,15 @@
 import React from 'react';
+import './sign-up.css';
 
-function SignUp() {
+function SignUp(props) {
   return (
     <>
         <header class="landing-nav">
             <h1>CookIt</h1>
-            <a href="./sign-up.html">Sign Up</a>
-            <a href="./sign-in.html">Sign In</a>
+            <button onClick={() => props.history.push('/')}>Cancel</button>
+            <button onClick={() => props.history.push('/sign-in')}>Sign In</button>
         </header>
-        <body>
+        <div>
             <div class="sign-up">
                 <h2>Sign Up</h2>
                 <form>
@@ -35,7 +36,7 @@ function SignUp() {
                     <button type="submit">Submit</button>
                 </form>
             </div>   
-        </body>
+        </div>
     </>
   );
 }

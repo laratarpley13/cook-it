@@ -71,6 +71,10 @@ h2 {
     padding: 15px;
 }
 
+.recipe h4 {
+    padding-bottom: 15px;
+}
+
 .recipe p {
     padding: 0 15px 15px 15px;
 }
@@ -85,4 +89,8 @@ h2 {
     padding: 3px 7px 3px 7px;
     margin: 0 10px 10px 10px;
     border-radius: 5px;
+}
+
+.tag-container .category {
+    background-color: darkolivegreen;
 }

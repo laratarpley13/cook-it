@@ -9,7 +9,7 @@ function EditComment() {
             <a href="#">Add Recipe</a>
             <a href="#">Sign Out</a>
         </header>
-        <body>
+        <div>
             <h2>Edit Comment</h2>
             <section class="edit-comment">
                 <form>
@@ -22,7 +22,7 @@ function EditComment() {
                     <button type="submit">Submit</button>
                 </form>
             </section>
-        </body>
+        </div>
     </>
   );
 }

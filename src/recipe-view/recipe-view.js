@@ -9,7 +9,7 @@ function RecipeView() {
             <a href="#">Add Recipe</a>
             <a href="#">Sign Out</a>
         </header>
-        <body>
+        <div>
             <div class="full-recipe">
                 <div class="image"></div>
                     <h3>Test Recipe Name</h3>
@@ -67,7 +67,7 @@ function RecipeView() {
                     <p>A fantastic recipe!</p>
                 </div>
             </section>
-        </body>
+        </div>
       </>
   );
 }
