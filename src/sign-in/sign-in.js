@@ -33,12 +33,12 @@ class SignIn extends Component {
                         <h2>Sign In</h2>
                         <form onSubmit={this.handleSignIn}>
                             {this.state.error && <p className="error">{this.state.error}</p>}
-                            <label for="email">
+                            <label htmlFor="email">
                             Email:
                             </label>
                             <input type="email" id="email" name="email" />
                             <br />
-                            <label for="password">
+                            <label htmlFor="password">
                             Password:
                             </label>
                             <input type="password" id="password" name="password" />

@@ -65,6 +65,20 @@ class App extends Component {
               />
             }
           />
+          <Route path='/user/:userId'
+            render={(props) => 
+              <UserView 
+                {...props}
+              />
+            }          
+          />
+          <Route path='/recipe/:recipeId'
+            render={(props) => 
+              <RecipeView 
+                {...props}
+              />
+            }          
+          />
         </main>
       </Context.Provider>
     );

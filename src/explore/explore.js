@@ -24,14 +24,14 @@ class Explore extends Component{
     }
 
     render() {
-        const { categories, tags, recipeTags } = this.context;
+        const { user, categories, tags, recipeTags } = this.context;
         console.log(tags[0].title, recipeTags[0].tagId)
 
         return (
             <>
                 <header className="landing-nav">
                     <h1>CookIt</h1>
-                    <button>My Recipes</button>
+                    <button onClick={() => this.props.history.push(`user/${user.id}`)}>My Recipes</button>
                     <button>Add Recipe</button>
                     <button onClick={() => this.logout()}>Log Out</button>
                 </header>
@@ -62,17 +62,20 @@ class Explore extends Component{
                     <h2>Explore</h2>
                     <section className="recipes">
                         {this.state.recipes.map(recipe => 
-                            <div className="recipe">
+                            <div className="recipe" onClick={() => this.props.history.push(`/recipe/${recipe.id}`)}>
                                 <div className="image"></div>
                                 <h3>{recipe.name}</h3>
-                                <h4>Created by: {recipe.createdBy}</h4>
+                                {this.state.users.filter(user => user.id === recipe.userId).map(filteredUser =>
+                                    <h4>Created by: {filteredUser.nickname}</h4>
+                                )}
                                 <p>{recipe.description}</p>
                                 <div className="tag-container">
                                     {categories.filter(category => category.id === recipe.categoryId).map(filteredCat => 
                                         <span className="tag category">{filteredCat.title}</span>    
                                     )}
-                                    {recipeTags.filter(recipeTag => recipeTag.recipeId === recipe.id).map(filteredTag => 
-                                        <span className="tag">{filteredTag.title}</span>    
+                                    {recipeTags.filter(recipeTag => recipeTag.recipeId === recipe.id).map(filteredTagId => {
+                                        <span className="tag">{tags.filter(tag => tag.id === filteredTagId.tagId).map(selectedTag => {return selectedTag.id})}</span>
+                                    }
                                     )}
                                 </div>
                             </div>
