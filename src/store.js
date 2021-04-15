@@ -32,53 +32,53 @@ export default {
     categories: [
         {
             id: 1,
-            title: "Breakfast"
+            title: "breakfast"
         },
         {
             id: 2,
-            title: "Entree"
+            title: "entree"
         },
         {
             id: 3,
-            title: "Dessert"
+            title: "dessert"
         },
         {
             id: 4,
-            title: "Drink"
+            title: "drink"
         },
         {
             id: 5,
-            title: "Side"
+            title: "side"
         },
         {
             id: 6,
-            title: "Snack"
+            title: "snack"
         }
     ],
     tags: [
         {
             id: 1,
-            title: "Vegan"
+            title: "vegan"
         },
         {
             id: 2,
-            title: "Asian"
+            title: "vegatarian"
         },
         {
             id: 3,
-            title: "Italian"
+            title: "gluten-free"
         },
         {
             id: 4,
-            title: "Low-Carb"
+            title: "dairy-free"
         },
         {
             id: 5,
-            title: "Dairy-Free"
+            title: "oil-free"
         },
         {
             id: 6,
-            title: "Gluten-Free"
+            title: "nightshade-free"
         },
     ],
     recipes: [
@@ -109,6 +109,13 @@ export default {
             categoryId: 4,
             title: "Test 4",
             description: "A delicous test recipe number 4!",
+        },
+        {
+            id: 5,
+            userId: 4,
+            categoryId: 1,
+            title: "Test 5",
+            description: "A delicous test recipe number 5!",
         },
     ],
     ingredients: [
