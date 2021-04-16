@@ -150,7 +150,7 @@ class Explore extends Component{
             <>
                 <header className="landing-nav">
                     <h1>CookIt</h1>
-                    <button onClick={() => this.props.history.push(`user/${user.id}`)}>My Recipes</button>
+                    <button onClick={() => this.props.history.push(`/user/${user.id}`)}>My Recipes</button>
                     <button>Add Recipe</button>
                     <button onClick={() => this.logout()}>Log Out</button>
                 </header>
@@ -180,14 +180,6 @@ class Explore extends Component{
                             <input type="checkbox" id="nightshade-free" name="nightshade-free" value="nightshade-free" onChange={this.handleChange} />
                             <label htmlFor="nightshade-free">nightshade-free</label>
                         </div>
-                        {/* <select name="dietary" id="dietary" size="2" multiple value={this.state.seletDietValue} onChange={this.handleDietChange}>
-                            <option value="vegan">vegan</option>
-                            <option value="vegatarian">vegatarian</option>
-                            <option value="gluten-free">gluten free</option>
-                            <option value="dairy-free">dairy free</option>
-                            <option value="oil-free">oil free</option>
-                            <option value="nightshade-free">nightshade free</option>
-                        </select> */}
                         <button type="submit">Enter</button>
                     </form>
                 </section>
@@ -195,11 +187,11 @@ class Explore extends Component{
                     <h2>Explore</h2>
                     <section className="recipes">
                         {this.state.recipes.map(recipe => 
-                            <div className="recipe" onClick={() => this.props.history.push(`/recipe/${recipe.id}`)}>
+                            <div key={recipe.id} className="recipe" onClick={() => this.props.history.push(`/recipe/${recipe.id}`)}>
                                 <div className="image"></div>
                                 <h3>{recipe.name}</h3>
                                 {this.state.users.filter(user => user.id === recipe.userId).map(filteredUser =>
-                                    <h4 className="user-link" onClick={(e) => {
+                                    <h4 key={filteredUser.id} className="user-link" onClick={(e) => {
                                         e.stopPropagation();
                                         this.props.history.push(`/user/${filteredUser.id}`);
                                 }}>Created by: {filteredUser.nickname}</h4>

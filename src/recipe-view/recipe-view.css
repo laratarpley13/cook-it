@@ -47,6 +47,11 @@ a {
     padding: 0 15px 15px 15px;
 }
 
+.full-recipe .creator-link {
+    padding-bottom: 15px;
+    color: darkolivegreen;
+}
+
 .full-recipe h4 {
     font-size: 15px;
     padding: 10px;
@@ -70,6 +75,10 @@ a {
     padding: 3px 7px 3px 7px;
     margin: 0 10px 10px 10px;
     border-radius: 5px;
+}
+
+.tag-container .category {
+    background-color: darkolivegreen;
 }
 
 h3 {
@@ -101,6 +110,11 @@ h3 {
     background-size: cover;
     background-position: center center;
     background-color: lightgreen;
+}
+
+.comment .comment-poster {
+    padding-top: 15px;
+    color: darkolivegreen;
 }
 
 .comment p {

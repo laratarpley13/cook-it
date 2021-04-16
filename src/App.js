@@ -9,9 +9,9 @@ import Explore from './explore/explore';
 import UserView from './user-view/user-view';
 import RecipeView from './recipe-view/recipe-view';
 import AddRecipe from './add-recipe/add-recipe';
-import EditRecipe from './edit-recipe/edit-recipe';
+//import EditRecipe from './edit-recipe/edit-recipe';
 import AddComment from './add-comment/add-comment';
-import EditComment from './edit-comment/edit-comment';
+//import EditComment from './edit-comment/edit-comment';
 import DummyData from './store';
 
 class App extends Component {

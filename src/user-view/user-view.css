@@ -66,6 +66,10 @@ h2 {
     padding: 0 15px 15px 15px;
 }
 
+.recipe .delete-rec {
+    margin: 10px;
+}
+
 .tag-container {
     margin: 10px 20px 20px 20px;
 }
@@ -76,6 +80,10 @@ h2 {
     padding: 3px 7px 3px 7px;
     margin: 0 10px 10px 10px;
     border-radius: 5px;
+}
+
+.tag-container .category {
+    background-color: darkolivegreen;
 }
 
 .user-comments {
@@ -107,4 +115,8 @@ h2 {
 
 .user-comments .comment p {
     padding: 15px 15px 15px 15px;
+}
+
+.comment .delete-com {
+    margin: 10px;
 }

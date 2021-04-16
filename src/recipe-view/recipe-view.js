@@ -1,75 +1,96 @@
-import React from 'react';
+import React, { Component } from 'react';
+import Context from '../Context';
+import './recipe-view.css';
+import DummyData from '../store';
 
-function RecipeView() {
-  return (
-      <>
-        <header class="landing-nav">
-            <h1>CookIt</h1>
-            <a href="#">My Recipes</a>
-            <a href="#">Add Recipe</a>
-            <a href="#">Sign Out</a>
-        </header>
-        <div>
-            <div class="full-recipe">
-                <div class="image"></div>
-                    <h3>Test Recipe Name</h3>
-                    <p>A delicious test recipe, made with html and css.</p>
-                    <h4>Ingredients</h4>
-                    <ul class="ingredients">
-                        <li>Test</li>
-                        <li>Test</li>
-                        <li>Test</li>
-                        <li>Test</li>
-                        <li>Test</li>
-                        <li>Test</li>
-                        <li>Test</li>
-                        <li>Test</li>
-                        <li>Test</li>
-                        <li>Test</li>
-                        <li>Test</li>
-                    </ul>
-                    <h4>Directions</h4>
-                    <ul class="directions">
-                        <li><p>Create a React App through your bash terminal</p></li>
-                        <li><p>CD into the folder and remove uneccasry files</p></li>
-                        <li><p>Open file in your coding editor</p></li>
-                        <li><p>Create gitHub repository</p></li>
-                        <li><p>Create remote origin in you newly created repository</p></li>
-                        <li><p>Push current content into you remote repository</p></li>
-                        <li><p>And happy coding!</p></li>
-                    </ul>
-                    <div class="tag-container">
-                        <span class="tag">Test</span>
-                        <span class="tag">Test</span>
-                        <span class="tag">Test</span>
-                    </div>
+class RecipeView extends Component{
+  state = {
+      recipe: {},
+      comments: [],
+      ingredients: [],
+      steps: [],
+      creator: {},
+      users: DummyData.users,
+  }
+  static contextType = Context;
+
+  logout = () => {
+      //TokenService.clearAuthToken();
+      this.props.history.push('/')
+  }
+
+  componentDidMount() {
+    const targetRecId = parseInt(this.props.match.params.recipeId);
+    const targetRec = DummyData.recipes.filter(rec => rec.id === targetRecId);
+    this.setState({ recipe: targetRec[0] });
+    const targetComments = DummyData.comments.filter(com => com.recipeId === targetRecId);
+    this.setState({ comments: targetComments });
+    const targetIng = DummyData.ingredients.filter(ing => ing.recipeId === targetRecId);
+    this.setState({ ingredients: targetIng })
+    const targetDir = DummyData.steps.filter(step => step.recipeId === targetRecId);
+    this.setState({ steps: targetDir });
+    const targetUser = DummyData.users.filter(user => user.id === targetRec[0].userId)
+    this.setState({ creator: targetUser[0] })
+  }
+
+  render() {
+    const { user, categories, tags, recipeTags } = this.context;
+
+    return (
+        <>
+            <header className="landing-nav">
+                <h1>CookIt</h1>
+                <button onClick={() => this.props.history.push(`/user/${user.id}`)}>My Recipes</button>
+                <button>Add Recipe</button>
+                <button onClick={() => this.logout()}>Log Out</button>
+            </header>
+            <div>
+                <div className="full-recipe">
+                    <div className="image"></div>
+                        <h3>{this.state.recipe.title}</h3>
+                        <h4 className="creator-link" onClick={() => this.props.history.push(`/user/${this.state.creator.id}`)}>Created by: {this.state.creator.nickname}</h4>
+                        <p>{this.state.recipe.description}</p>
+                        <h4>Ingredients</h4>
+                        <ul className="ingredients">
+                            {this.state.ingredients.map(ingredient => 
+                                <li key={ingredient.id}><p>{ingredient.title}: {ingredient.amount}</p></li>
+                            )}
+                        </ul>
+                        <h4>Directions</h4>
+                        <ul className="directions">
+                            {this.state.steps.map(step => 
+                                <li key={step.id}><p>{step.text}</p></li>    
+                            )}
+                        </ul>
+                        <div className="tag-container">
+                            {categories.filter(category => category.id === this.state.recipe.categoryId).map(filteredCat => 
+                                <span key={filteredCat.id} className="tag category">{filteredCat.title}</span>    
+                            )}
+                            {tags.map(tag => {
+                                for(let i=0; i<recipeTags.length; i++) {
+                                    if(tag.id === recipeTags[i].tagId && this.state.recipe.id === recipeTags[i].recipeId) {
+                                        return <span key={i} className="tag">{tag.title}</span>
+                                    }
+                                }
+                            })}
+                        </div>
+                </div>
+                <h3>Comments</h3>
+                <section className="comments">
+                    {this.state.comments.map(comment => 
+                        <div key={comment.id} className="comment">
+                            <div className="response-img"></div>
+                            {this.state.users.filter(user => user.id === comment.userId).map(filteredUser => 
+                                <h4 key={filteredUser.id} className="comment-poster" onClick={() => this.props.history.push(`/user/${filteredUser.id}`)}>By: {filteredUser.nickname}</h4>    
+                            )}
+                            <p>{comment.comment}</p>
+                        </div>    
+                    )}
+                </section>
             </div>
-            <h3>Comments</h3>
-            <section class="comments">
-                <div class="comment">
-                    <div class="response-img"></div>
-                    <p>A fantastic recipe!</p>
-                </div>
-                <div class="comment">
-                    <div class="response-img"></div>
-                    <p>A fantastic recipe!</p>
-                </div>
-                <div class="comment">
-                    <div class="response-img"></div>
-                    <p>A fantastic recipe!</p>
-                </div>
-                <div class="comment">
-                    <div class="response-img"></div>
-                    <p>A fantastic recipe!</p>
-                </div>
-                <div class="comment">
-                    <div class="response-img"></div>
-                    <p>A fantastic recipe!</p>
-                </div>
-            </section>
-        </div>
-      </>
-  );
+        </>
+    );
+  }
 }
 
 export default RecipeView;
