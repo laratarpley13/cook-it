@@ -40,7 +40,6 @@ class Explore extends Component{
 
     handleFilter = (e, categories, tags, recipeTags) => {
         e.preventDefault();
-        alert(`Cat is ${this.state.selectCatValue} and Diet is ${this.state.selectDietValues}`)
         if(this.state.selectCatValue === "all"){
             if(this.state.selectDietValues.length > 0) {
                 let filteredTags = [];
@@ -71,7 +70,6 @@ class Explore extends Component{
                     .map(id => {
                         return filteredRecByTag.find(rec => rec.id === id)
                     })
-                console.log(removeUniqueRec);
                 this.setState({
                     recipes: removeUniqueRec
                 })
@@ -85,7 +83,6 @@ class Explore extends Component{
             const targetCat = categories.filter(category => 
                 category.title === this.state.selectCatValue    
             )
-            console.log(targetCat)
             const filteredCatRec = DummyData.recipes.filter(recipe => 
                 recipe.categoryId === targetCat[0].id
             )
@@ -118,7 +115,6 @@ class Explore extends Component{
                     .map(id => {
                         return filteredRecByTag.find(rec => rec.id === id)
                     })
-                console.log(removeUniqueRec);
                 this.setState({
                     recipes: removeUniqueRec
                 })
@@ -129,6 +125,22 @@ class Explore extends Component{
                 })
             }
         }
+    }
+
+    FilterTags = (recipeTags, tags, givenRecId) => {
+        const filteredRecTags = recipeTags.filter(recipeTag => recipeTags.recipeId === givenRecId)
+        let filteredTags = [];
+        for(let i=0; i<tags.length; i++){
+            for(let j=0; j<filteredRecTags.length; j++) {
+                if(tags[i].id === filteredRecTags[j].tagId) {
+                    filteredTags.push(tags[i].title)
+                }
+            }
+        }
+
+        return filteredTags.map(tag => 
+            <span className="tag">{tag}</span>
+        )
     }
 
     render() {
@@ -180,8 +192,6 @@ class Explore extends Component{
                     </form>
                 </section>
                 <div>
-                    <p>{this.state.selectCatValue}</p>
-                    <p>{this.state.selectDietValues}</p>
                     <h2>Explore</h2>
                     <section className="recipes">
                         {this.state.recipes.map(recipe => 
@@ -189,17 +199,23 @@ class Explore extends Component{
                                 <div className="image"></div>
                                 <h3>{recipe.name}</h3>
                                 {this.state.users.filter(user => user.id === recipe.userId).map(filteredUser =>
-                                    <h4>Created by: {filteredUser.nickname}</h4>
+                                    <h4 className="user-link" onClick={(e) => {
+                                        e.stopPropagation();
+                                        this.props.history.push(`/user/${filteredUser.id}`);
+                                }}>Created by: {filteredUser.nickname}</h4>
                                 )}
                                 <p>{recipe.description}</p>
                                 <div className="tag-container">
                                     {categories.filter(category => category.id === recipe.categoryId).map(filteredCat => 
-                                        <span className="tag category">{filteredCat.title}</span>    
+                                        <span key={filteredCat.id} className="tag category">{filteredCat.title}</span>    
                                     )}
-                                    {recipeTags.filter(recipeTag => recipeTag.recipeId === recipe.id).map(filteredTagId => {
-                                        <span className="tag">{tags.filter(tag => tag.id === filteredTagId.tagId).map(selectedTag => {return selectedTag.id})}</span>
-                                    }
-                                    )}
+                                    {tags.map(tag => {
+                                        for(let i=0; i<recipeTags.length; i++) {
+                                            if(tag.id === recipeTags[i].tagId && recipe.id === recipeTags[i].recipeId) {
+                                                return <span key={i} className="tag">{tag.title}</span>
+                                            }
+                                        }
+                                    })}
                                 </div>
                             </div>
                         )}

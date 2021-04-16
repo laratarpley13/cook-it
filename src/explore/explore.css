@@ -75,8 +75,9 @@ h2 {
     padding: 15px;
 }
 
-.recipe h4 {
+.recipe .user-link {
     padding-bottom: 15px;
+    color: darkolivegreen;
 }
 
 .recipe p {
