@@ -79,6 +79,20 @@ class App extends Component {
               />
             }          
           />
+          <Route path='/add-recipe'
+            render={(props) => 
+              <AddRecipe 
+                {...props}
+              />
+            }
+          />
+          <Route path='/add-comment'
+            render={(props) => 
+              <AddComment 
+                {...props}
+              />
+            }
+          />
         </main>
       </Context.Provider>
     );

@@ -149,9 +149,9 @@ class Explore extends Component{
         return (
             <>
                 <header className="landing-nav">
-                    <h1>CookIt</h1>
+                    <h1 onClick={() => this.props.history.push('/explore')}>CookIt</h1>
                     <button onClick={() => this.props.history.push(`/user/${user.id}`)}>My Recipes</button>
-                    <button>Add Recipe</button>
+                    <button onClick={() => this.props.history.push('/add-recipe')}>Add Recipe</button>
                     <button onClick={() => this.logout()}>Log Out</button>
                 </header>
                 <section className="filter-nav">
@@ -188,7 +188,7 @@ class Explore extends Component{
                     <section className="recipes">
                         {this.state.recipes.map(recipe => 
                             <div key={recipe.id} className="recipe" onClick={() => this.props.history.push(`/recipe/${recipe.id}`)}>
-                                <div className="image"></div>
+                                <div className="image" style={{backgroundImage: `url(${recipe.imgUrl})`}}></div>
                                 <h3>{recipe.name}</h3>
                                 {this.state.users.filter(user => user.id === recipe.userId).map(filteredUser =>
                                     <h4 key={filteredUser.id} className="user-link" onClick={(e) => {

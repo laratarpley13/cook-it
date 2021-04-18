@@ -39,53 +39,56 @@ class RecipeView extends Component{
     return (
         <>
             <header className="landing-nav">
-                <h1>CookIt</h1>
+                <h1 onClick={() => this.props.history.push('/explore')}>CookIt</h1>
                 <button onClick={() => this.props.history.push(`/user/${user.id}`)}>My Recipes</button>
-                <button>Add Recipe</button>
+                <button onClick={() => this.props.history.push('/add-recipe')}>Add Recipe</button>
                 <button onClick={() => this.logout()}>Log Out</button>
             </header>
             <div>
                 <div className="full-recipe">
-                    <div className="image"></div>
-                        <h3>{this.state.recipe.title}</h3>
-                        <h4 className="creator-link" onClick={() => this.props.history.push(`/user/${this.state.creator.id}`)}>Created by: {this.state.creator.nickname}</h4>
-                        <p>{this.state.recipe.description}</p>
-                        <h4>Ingredients</h4>
-                        <ul className="ingredients">
-                            {this.state.ingredients.map(ingredient => 
-                                <li key={ingredient.id}><p>{ingredient.title}: {ingredient.amount}</p></li>
-                            )}
-                        </ul>
-                        <h4>Directions</h4>
-                        <ul className="directions">
-                            {this.state.steps.map(step => 
-                                <li key={step.id}><p>{step.text}</p></li>    
-                            )}
-                        </ul>
-                        <div className="tag-container">
-                            {categories.filter(category => category.id === this.state.recipe.categoryId).map(filteredCat => 
-                                <span key={filteredCat.id} className="tag category">{filteredCat.title}</span>    
-                            )}
-                            {tags.map(tag => {
-                                for(let i=0; i<recipeTags.length; i++) {
-                                    if(tag.id === recipeTags[i].tagId && this.state.recipe.id === recipeTags[i].recipeId) {
-                                        return <span key={i} className="tag">{tag.title}</span>
-                                    }
+                    <div className="image" style={{backgroundImage: `url(${this.state.recipe.imgUrl})`}}></div>
+                    <h3>{this.state.recipe.title}</h3>
+                    <h4 className="creator-link" onClick={() => this.props.history.push(`/user/${this.state.creator.id}`)}>Created by: {this.state.creator.nickname}</h4>
+                    <p>{this.state.recipe.description}</p>
+                    <h4>Ingredients</h4>
+                    <ul className="ingredients">
+                        {this.state.ingredients.map(ingredient => 
+                            <li key={ingredient.id}><p>{ingredient.title}: {ingredient.amount}</p></li>
+                        )}
+                    </ul>
+                    <h4>Directions</h4>
+                    <ul className="directions">
+                        {this.state.steps.map(step => 
+                            <li key={step.id}><p>{step.text}</p></li>    
+                        )}
+                    </ul>
+                    <div className="tag-container">
+                        {categories.filter(category => category.id === this.state.recipe.categoryId).map(filteredCat => 
+                            <span key={filteredCat.id} className="tag category">{filteredCat.title}</span>    
+                        )}
+                        {tags.map(tag => {
+                            for(let i=0; i<recipeTags.length; i++) {
+                                if(tag.id === recipeTags[i].tagId && this.state.recipe.id === recipeTags[i].recipeId) {
+                                    return <span key={i} className="tag">{tag.title}</span>
                                 }
-                            })}
-                        </div>
+                            }
+                        })}
+                    </div>
                 </div>
                 <h3>Comments</h3>
                 <section className="comments">
-                    {this.state.comments.map(comment => 
-                        <div key={comment.id} className="comment">
-                            <div className="response-img"></div>
-                            {this.state.users.filter(user => user.id === comment.userId).map(filteredUser => 
-                                <h4 key={filteredUser.id} className="comment-poster" onClick={() => this.props.history.push(`/user/${filteredUser.id}`)}>By: {filteredUser.nickname}</h4>    
-                            )}
-                            <p>{comment.comment}</p>
-                        </div>    
-                    )}
+                    {this.state.comments.length === 0 ?
+                        <p>No comments yet</p>
+                        : this.state.comments.map(comment => 
+                            <div key={comment.id} className="comment">
+                                <div className="response-img" style={{backgroundImage: `url(${comment.imgUrl})`}}></div>
+                                {this.state.users.filter(user => user.id === comment.userId).map(filteredUser => 
+                                    <h4 key={filteredUser.id} className="comment-poster" onClick={() => this.props.history.push(`/user/${filteredUser.id}`)}>By: {filteredUser.nickname}</h4>    
+                                )}
+                                <p>{comment.comment}</p>
+                            </div>    
+                        )
+                    }
                 </section>
             </div>
         </>

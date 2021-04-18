@@ -87,7 +87,8 @@ export default {
             userId: 1,
             categoryId: 1,
             title: "Test 1",
-            description: "A delicious Test Recipe"
+            description: "A delicious Test Recipe",
+            imgUrl: "https://i.imgur.com/WVp1sOx.jpg"
         },
         {
             id: 2,
@@ -95,6 +96,7 @@ export default {
             categoryId: 2,
             title: "Test 2",
             description: "A delicous test recipe number 2!",
+            imgUrl: "https://i.imgur.com/7cetQ7o.jpeg"
         },
         {
             id: 3,
@@ -102,6 +104,7 @@ export default {
             categoryId: 3,
             title: "Test 3",
             description: "A delicous test recipe number 3!",
+            imgUrl: "https://i.imgur.com/oDcRUA1b.jpg"
         },
         {
             id: 4,
@@ -109,6 +112,7 @@ export default {
             categoryId: 4,
             title: "Test 4",
             description: "A delicous test recipe number 4!",
+            imgUrl: "https://i.imgur.com/8Ts1mmwb.jpg"
         },
         {
             id: 5,
@@ -116,6 +120,7 @@ export default {
             categoryId: 1,
             title: "Test 5",
             description: "A delicous test recipe number 5!",
+            imgUrl: "https://i.imgur.com/oz3wGNab.jpg"
         },
     ],
     ingredients: [
@@ -259,49 +264,57 @@ export default {
             id: 1,
             recipeId: 1,
             userId: 2,
-            comment: "Delicious!"
+            comment: "Delicious!",
+            imgUrl: "https://i.imgur.com/WVp1sOx.jpg"
         },
         {
             id: 2,
             recipeId: 1,
             userId: 4,
-            comment: "Pretty good!"
+            comment: "Pretty good!",
+            imgUrl: "https://i.imgur.com/WVp1sOx.jpg"
         },
         {
             id: 3,
             recipeId: 2,
             userId: 3,
-            comment: "Not bad!"
+            comment: "Not bad!",
+            imgUrl: "https://i.imgur.com/7cetQ7o.jpeg"
         },
         {
             id: 4,
             recipeId: 2,
             userId: 1,
-            comment: "My attempt did not go well..."
+            comment: "My attempt did not go well...",
+            imgUrl: "https://i.imgur.com/7cetQ7o.jpeg"
         },
         {
             id: 5,
             recipeId: 3,
             userId: 2,
-            comment: "Meh"
+            comment: "Meh",
+            imgUrl: "https://i.imgur.com/oDcRUA1b.jpg"
         },
         {
             id: 6,
             recipeId: 3,
             userId: 4,
-            comment: "Yum"
+            comment: "Yum",
+            imgUrl: "https://i.imgur.com/oDcRUA1b.jpg"
         },
         {
             id: 7,
             recipeId: 4,
             userId: 1,
-            comment: "I think something went wrong..."
+            comment: "I think something went wrong...",
+            imgUrl: "https://i.imgur.com/8Ts1mmwb.jpg"
         },
         {
             id: 8,
             recipeId: 4,
             userId: 3,
-            comment: "My version!"
+            comment: "My version!",
+            imgUrl: "https://i.imgur.com/8Ts1mmwb.jpg"
         },
     ],
     recipeTags: [
