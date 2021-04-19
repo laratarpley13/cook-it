@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Context from '../Context';
 import './recipe-view.css';
-import DummyData from '../store';
 
 class RecipeView extends Component{
   state = {
@@ -10,7 +9,7 @@ class RecipeView extends Component{
       ingredients: [],
       steps: [],
       creator: {},
-      users: DummyData.users,
+      users: this.context.allUsers,
   }
   static contextType = Context;
 
@@ -21,15 +20,15 @@ class RecipeView extends Component{
 
   componentDidMount() {
     const targetRecId = parseInt(this.props.match.params.recipeId);
-    const targetRec = DummyData.recipes.filter(rec => rec.id === targetRecId);
+    const targetRec = this.context.recipes.filter(rec => rec.id === targetRecId);
     this.setState({ recipe: targetRec[0] });
-    const targetComments = DummyData.comments.filter(com => com.recipeId === targetRecId);
+    const targetComments = this.context.comments.filter(com => com.recipeId === targetRecId);
     this.setState({ comments: targetComments });
-    const targetIng = DummyData.ingredients.filter(ing => ing.recipeId === targetRecId);
+    const targetIng = this.context.ingredients.filter(ing => ing.recipeId === targetRecId);
     this.setState({ ingredients: targetIng })
-    const targetDir = DummyData.steps.filter(step => step.recipeId === targetRecId);
+    const targetDir = this.context.steps.filter(step => step.recipeId === targetRecId);
     this.setState({ steps: targetDir });
-    const targetUser = DummyData.users.filter(user => user.id === targetRec[0].userId)
+    const targetUser = this.context.allUsers.filter(user => user.id === targetRec[0].userId)
     this.setState({ creator: targetUser[0] })
   }
 
@@ -69,7 +68,7 @@ class RecipeView extends Component{
                         {tags.map(tag => {
                             for(let i=0; i<recipeTags.length; i++) {
                                 if(tag.id === recipeTags[i].tagId && this.state.recipe.id === recipeTags[i].recipeId) {
-                                    return <span key={i} className="tag">{tag.title}</span>
+                                    return (<span key={i} className="tag">{tag.title}</span>)
                                 }
                             }
                         })}

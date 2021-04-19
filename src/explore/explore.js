@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import Context from '../Context';
 import './explore.css';
-import DummyData from '../store';
 
 class Explore extends Component{
     state = {
-        recipes: DummyData.recipes,
-        users: DummyData.users,
+        recipes: this.context.recipes,
+        users: this.context.allUsers,
         selectCatValue: 'all',
         selectDietValues: [],
     }
@@ -60,9 +59,9 @@ class Explore extends Component{
                 }
                 let filteredRecByTag = [];
                 for(let i=0; i<filteredRecipeTags.length; i++) {
-                    for(let j=0; j<DummyData.recipes.length; j++) {
-                        if(filteredRecipeTags[i].recipeId === DummyData.recipes[j].id) {
-                            filteredRecByTag.push(DummyData.recipes[j]);
+                    for(let j=0; j<this.state.recipes.length; j++) {
+                        if(filteredRecipeTags[i].recipeId === this.state.recipes[j].id) {
+                            filteredRecByTag.push(this.state.recipes[j]);
                         }
                     }
                 }
@@ -76,14 +75,14 @@ class Explore extends Component{
             }
             else {
                 this.setState({
-                    recipes: DummyData.recipes
+                    recipes: this.state.recipes
                 })
             }
         } else {
             const targetCat = categories.filter(category => 
                 category.title === this.state.selectCatValue    
             )
-            const filteredCatRec = DummyData.recipes.filter(recipe => 
+            const filteredCatRec = this.state.recipes.filter(recipe => 
                 recipe.categoryId === targetCat[0].id
             )
             if(this.state.selectDietValues.length > 0) {
@@ -127,22 +126,6 @@ class Explore extends Component{
         }
     }
 
-    FilterTags = (recipeTags, tags, givenRecId) => {
-        const filteredRecTags = recipeTags.filter(recipeTag => recipeTags.recipeId === givenRecId)
-        let filteredTags = [];
-        for(let i=0; i<tags.length; i++){
-            for(let j=0; j<filteredRecTags.length; j++) {
-                if(tags[i].id === filteredRecTags[j].tagId) {
-                    filteredTags.push(tags[i].title)
-                }
-            }
-        }
-
-        return filteredTags.map(tag => 
-            <span className="tag">{tag}</span>
-        )
-    }
-
     render() {
         const { user, categories, tags, recipeTags } = this.context;
 
@@ -167,18 +150,9 @@ class Explore extends Component{
                             <option value="snack">snack</option>
                         </select>
                         <div className="dietary">
-                            <input type="checkbox" id="vegan" name="vegan" value="vegan" onChange={this.handleChange} />
-                            <label htmlFor="vegan">Vegan</label>
-                            <input type="checkbox" id="vegatarian" name="vegatarian" value="vegatarian" onChange={this.handleChange} />
-                            <label htmlFor="vegatarian">Vegatarian</label>
-                            <input type="checkbox" id="gluten-free" name="gluten-free" value="gluten-free" onChange={this.handleChange} />
-                            <label htmlFor="gluten-free">gluten-free</label>
-                            <input type="checkbox" id="dairy-free" name="dairy-free" value="dairy-free" onChange={this.handleChange} />
-                            <label htmlFor="dairy-free">dairy-free</label>
-                            <input type="checkbox" id="oil-free" name="oil-free" value="oil-free" onChange={this.handleChange} />
-                            <label htmlFor="oil-free">oil-free</label>
-                            <input type="checkbox" id="nightshade-free" name="nightshade-free" value="nightshade-free" onChange={this.handleChange} />
-                            <label htmlFor="nightshade-free">nightshade-free</label>
+                            {tags.map(tag => 
+                                <label key={tag.id}><input type="checkbox" id={tag.title} name={tag.title} value={tag.title} onChange={this.handleChange} />{tag.title}</label>    
+                            )}
                         </div>
                         <button type="submit">Enter</button>
                     </form>
@@ -204,7 +178,7 @@ class Explore extends Component{
                                     {tags.map(tag => {
                                         for(let i=0; i<recipeTags.length; i++) {
                                             if(tag.id === recipeTags[i].tagId && recipe.id === recipeTags[i].recipeId) {
-                                                return <span key={i} className="tag">{tag.title}</span>
+                                                return (<span key={i} className="tag">{tag.title}</span>)
                                             }
                                         }
                                     })}

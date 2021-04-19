@@ -23,13 +23,13 @@ class SignIn extends Component {
     render() {
         return (
             <>
-                <header class="landing-nav">
+                <header className="landing-nav">
                     <h1>CookIt</h1>
                     <button onClick={() => this.props.history.push('/')}>Cancel</button>
                     <button onClick={() => this.props.history.push('/sign-up')}>Sign Up</button>
                 </header>
                 <div>
-                    <div class="sign-in">
+                    <div className="sign-in">
                         <h2>Sign In</h2>
                         <form onSubmit={this.handleSignIn}>
                             {this.state.error && <p className="error">{this.state.error}</p>}

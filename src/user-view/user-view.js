@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Context from '../Context';
 import './user-view.css';
-import DummyData from '../store';
 
 class UserView extends Component{
   state = {
@@ -18,11 +17,11 @@ class UserView extends Component{
 
   componentDidMount() {
       const targetUserId = parseInt(this.props.match.params.userId);
-      const targetUser = DummyData.users.filter(user => user.id === targetUserId);
+      const targetUser = this.context.allUsers.filter(user => user.id === targetUserId);
       this.setState({ pageUser: targetUser[0] });
-      const targetRec = DummyData.recipes.filter(recipe => recipe.userId === targetUserId);
+      const targetRec = this.context.recipes.filter(recipe => recipe.userId === targetUserId);
       this.setState({ recipes: targetRec });
-      const targetComments = DummyData.comments.filter(comment => comment.userId === targetUserId);
+      const targetComments = this.context.comments.filter(comment => comment.userId === targetUserId);
       this.setState({ comments: targetComments });
   }
 
@@ -53,7 +52,7 @@ class UserView extends Component{
                                 {tags.map(tag => {
                                     for(let i=0; i<recipeTags.length; i++) {
                                         if(tag.id === recipeTags[i].tagId && recipe.id === recipeTags[i].recipeId) {
-                                            return <span key={i} className="tag">{tag.title}</span>
+                                            return (<span key={i} className="tag">{tag.title}</span>)
                                         }
                                     }
                                 })}

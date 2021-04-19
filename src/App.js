@@ -21,15 +21,81 @@ class App extends Component {
       email: "demo@demo.com",
       nickname: "Demo Cook",
     },
+    recipes: DummyData.recipes,
+    allUsers: DummyData.users,
+    ingredients: DummyData.ingredients,
+    steps: DummyData.steps,
+    comments: DummyData.comments,
     categories: DummyData.categories,
     tags: DummyData.tags,
     recipeTags: DummyData.recipeTags,
+  }
+
+  handleRecipeAdd = (name, imageurl, description, ingredients, directions, category, tags) => {
+    let targetCatId = this.state.categories.filter(cat => cat.title === category);
+    targetCatId = targetCatId[0].id;
+
+    const newRecId = this.state.recipes.length + 1;
+
+    const newRecipe = {
+      id: newRecId,
+      userId: this.state.user.id,
+      categoryId: targetCatId,
+      title: name,
+      description: description,
+      imgUrl: imageurl 
+    }
+
+    this.setState({
+      recipes: [...this.state.recipes, newRecipe]
+    })
+    console.log(newRecipe);
+
+    ingredients.map(ingredient => this.setState({
+      ingredients: [...this.state.ingredients, {
+        id: this.state.ingredients.length + 1,
+        recipeId: newRecId,
+        title: ingredient.title,
+        amount: ingredient.amount
+      }]
+    }))
+
+    directions.map(dir => this.setState({
+      directions: [...this.state.steps, {
+        id: this.state.steps.length + 1,
+        recipeId: newRecId,
+        text: dir,
+      }]
+    }))
+
+    let targetTags = [];
+    for(let i=0; i<this.state.tags.length; i++) {
+      for(let j=0; j<tags.length; j++) {
+        if(this.state.tags[i].title === tags[j]) {
+          targetTags.push(this.state.tags[i])
+        }
+      }
+    }
+    
+    targetTags.map(tag => {
+      this.setState({
+        recipeTags: [...this.state.recipeTags, {
+          recipeId: newRecId,
+          tagId: tag.id
+        }]
+      })
+    })
   }
 
   render() {
     console.log(this.state);
     const value = {
       user: this.state.user,
+      recipes: this.state.recipes,
+      allUsers: this.state.allUsers,
+      ingredients: this.state.ingredients,
+      steps: this.state.steps,
+      comments: this.state.comments,
       categories: this.state.categories,
       tags: this.state.tags,
       recipeTags: this.state.recipeTags,
@@ -83,6 +149,7 @@ class App extends Component {
             render={(props) => 
               <AddRecipe 
                 {...props}
+                handleRecipeAdd={this.handleRecipeAdd}
               />
             }
           />
