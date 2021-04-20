@@ -23,13 +23,9 @@ class AddRecipe extends Component {
       e.preventDefault()
       const { name, imageurl, description, ingredients, directions, category, tags } = this.state;
       this.props.handleRecipeAdd(name, imageurl, description, ingredients, directions, category, tags)
-      /* console.log(this.state.name)
-      console.log(this.state.imageurl)
-      console.log(this.state.description)
-      console.log(this.state.ingredients)
-      console.log(this.state.directions)
-      console.log(this.state.category, this.state.tags) */
+      
       //make a post request to the database
+      this.props.history.push(`/explore`);
   }
 
   handleText = (e) => {

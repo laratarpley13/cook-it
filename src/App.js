@@ -37,6 +37,9 @@ class App extends Component {
 
     const newRecId = this.state.recipes.length + 1;
 
+    console.log(ingredients); //debugging
+    console.log(directions); //debugging
+
     const newRecipe = {
       id: newRecId,
       userId: this.state.user.id,
@@ -51,22 +54,55 @@ class App extends Component {
     })
     console.log(newRecipe);
 
-    ingredients.map(ingredient => this.setState({
-      ingredients: [...this.state.ingredients, {
-        id: this.state.ingredients.length + 1,
+    let ingCount = this.state.ingredients.length
+
+    let formattedIng = ingredients.map(ingredient => {
+      ingCount ++;
+      return ({
+        id: ingCount,
         recipeId: newRecId,
         title: ingredient.title,
         amount: ingredient.amount
-      }]
-    }))
+      })
+    })
 
-    directions.map(dir => this.setState({
-      directions: [...this.state.steps, {
-        id: this.state.steps.length + 1,
+    this.setState({
+      ingredients: this.state.ingredients.concat(formattedIng)
+    });
+
+    let stepCount = this.state.steps.length
+
+    let formattedSteps = directions.map(dir => {
+      stepCount ++;
+      return ({
+        id: stepCount,
         recipeId: newRecId,
         text: dir,
-      }]
+      })
+    })
+
+    this.setState({
+      steps: this.state.steps.concat(formattedSteps)
+    });
+
+    console.log(formattedIng)
+    console.log(formattedSteps)
+
+    /* directions.map(dir => console.log({
+      id: this.state.steps.length + 1,
+      recipeId: newRecId,
+      text: dir,
     }))
+
+    directions.map(dir => { 
+      return (this.setState({
+        steps: [...this.state.steps, {
+          id: this.state.steps.length + 1,
+          recipeId: newRecId,
+          text: dir,
+        }]
+      }, () => console.log(this.state.steps))
+    )}) */
 
     let targetTags = [];
     for(let i=0; i<this.state.tags.length; i++) {
@@ -76,15 +112,17 @@ class App extends Component {
         }
       }
     }
-    
-    targetTags.map(tag => {
-      this.setState({
-        recipeTags: [...this.state.recipeTags, {
-          recipeId: newRecId,
-          tagId: tag.id
-        }]
-      })
+
+    let formattedRecId = targetTags.map(tag => {
+      return {
+        recipeId: newRecId,
+        tagId: tag.id
+      }
     })
+
+    this.setState({
+      recipeTags: this.state.recipeTags.concat(formattedRecId)
+    });    
   }
 
   render() {
