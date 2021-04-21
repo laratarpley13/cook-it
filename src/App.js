@@ -85,25 +85,6 @@ class App extends Component {
       steps: this.state.steps.concat(formattedSteps)
     });
 
-    console.log(formattedIng)
-    console.log(formattedSteps)
-
-    /* directions.map(dir => console.log({
-      id: this.state.steps.length + 1,
-      recipeId: newRecId,
-      text: dir,
-    }))
-
-    directions.map(dir => { 
-      return (this.setState({
-        steps: [...this.state.steps, {
-          id: this.state.steps.length + 1,
-          recipeId: newRecId,
-          text: dir,
-        }]
-      }, () => console.log(this.state.steps))
-    )}) */
-
     let targetTags = [];
     for(let i=0; i<this.state.tags.length; i++) {
       for(let j=0; j<tags.length; j++) {
@@ -123,6 +104,38 @@ class App extends Component {
     this.setState({
       recipeTags: this.state.recipeTags.concat(formattedRecId)
     });    
+  }
+
+  handleCommentAdd = (imageurl, comment, recipeId) => {
+    const formattedCom = {
+      id: this.state.comments.length,
+      recipeId: recipeId,
+      userId: this.state.user.id,
+      comment: comment,
+      imgUrl: imageurl
+    }
+
+    this.setState({
+      comments: [...this.state.comments, formattedCom]
+    })
+  }
+
+  handleComDelete = (commentId) => {
+    console.log(commentId); //debugging
+    const newComments = this.state.comments.filter(comment => comment.id !== commentId)
+    this.setState({
+      comments: newComments
+    }, () => console.log(this.state.comments))
+  }
+
+  handleRecDelete = (recipeId) => {
+    console.log(recipeId) //debugging
+    const newRecipes = this.state.recipes.filter(recipe =>
+      recipe.id !== recipeId  
+    )
+    this.setState({
+      recipes: newRecipes
+    }, () => console.log(this.state.recipes))
   }
 
   render() {
@@ -173,6 +186,8 @@ class App extends Component {
             render={(props) => 
               <UserView 
                 {...props}
+                handleRecDelete = {this.handleRecDelete}
+                handleComDelete = {this.handleComDelete}
               />
             }          
           />
@@ -191,10 +206,11 @@ class App extends Component {
               />
             }
           />
-          <Route path='/add-comment'
+          <Route path='/add-comment/:recipeId'
             render={(props) => 
               <AddComment 
                 {...props}
+                handleCommentAdd = {this.handleCommentAdd}
               />
             }
           />

@@ -82,7 +82,11 @@ a {
 }
 
 h3 {
-    font-size: 16px
+    font-size: 16px;
+}
+
+.add-comment-button {
+    margin-top: 10px;
 }
 
 .comments {

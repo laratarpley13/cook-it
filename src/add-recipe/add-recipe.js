@@ -128,7 +128,6 @@ class AddRecipe extends Component {
                         <br />
                         <div className="ingredients">
                             <h3>Ingredients:</h3>
-                            {/* <label htmlFor="ingredients">Ingredients:</label> */}
                             {this.state.ingredients.map((ingredient, index) => {
                                 let titleId = `title-${index}`, amountId = `amount=${index}` 
                                 return (

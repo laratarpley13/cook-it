@@ -65,16 +65,20 @@ class RecipeView extends Component{
                         {categories.filter(category => category.id === this.state.recipe.categoryId).map(filteredCat => 
                             <span key={filteredCat.id} className="tag category">{filteredCat.title}</span>    
                         )}
-                        {tags.map(tag => {
+                        {recipeTags.filter(r => r.recipeId === this.state.recipe.id).map(r => r.tagId).map(tagId => 
+                            <span key={tagId} className="tag">{tags.find(t => t.id === tagId).title}</span>
+                        )}
+                        {/* {tags.map(tag => {
                             for(let i=0; i<recipeTags.length; i++) {
                                 if(tag.id === recipeTags[i].tagId && this.state.recipe.id === recipeTags[i].recipeId) {
                                     return (<span key={i} className="tag">{tag.title}</span>)
                                 }
                             }
-                        })}
+                        })} */}
                     </div>
                 </div>
                 <h3>Comments</h3>
+                <button className="add-comment-button" onClick={() => this.props.history.push(`/add-comment/${this.state.recipe.id}`)}>Add Comment</button>
                 <section className="comments">
                     {this.state.comments.length === 0 ?
                         <p>No comments yet</p>

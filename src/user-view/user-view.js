@@ -15,6 +15,22 @@ class UserView extends Component{
       this.props.history.push('/')
   }
 
+  commentDelete = (commentId) => {
+      this.props.handleComDelete(commentId)
+      const targetComments = this.state.comments.filter(comment => 
+        comment.id !== commentId  
+      )
+      this.setState({comments: targetComments})
+  }
+
+  recipeDelete = (recipeId) => {
+      this.props.handleRecDelete(recipeId)
+      const targetRecipes = this.state.recipes.filter(recipe =>
+        recipe.id !== recipeId  
+      )
+      this.setState({recipes: targetRecipes})
+  }
+
   componentDidMount() {
       const targetUserId = parseInt(this.props.match.params.userId);
       const targetUser = this.context.allUsers.filter(user => user.id === targetUserId);
@@ -49,15 +65,14 @@ class UserView extends Component{
                                 {categories.filter(category => category.id === recipe.categoryId).map(filteredCat => 
                                     <span key={filteredCat.id} className="tag category">{filteredCat.title}</span>    
                                 )}
-                                {tags.map(tag => {
-                                    for(let i=0; i<recipeTags.length; i++) {
-                                        if(tag.id === recipeTags[i].tagId && recipe.id === recipeTags[i].recipeId) {
-                                            return (<span key={i} className="tag">{tag.title}</span>)
-                                        }
-                                    }
-                                })}
+                                {recipeTags.filter(r => r.recipeId === recipe.id).map(r => r.tagId).map(tagId => 
+                                    <span key={tagId} className="tag">{tags.find(t => t.id === tagId).title}</span>
+                                )}
                             </div>
-                            {user.id === this.state.pageUser.id ? <button className="delete-rec">Delete</button> : null}
+                            {user.id === this.state.pageUser.id ? <button className="delete-rec" onClick={(e) => {
+                                e.stopPropagation();
+                                this.recipeDelete(recipe.id);
+                            }}>Delete</button> : null}
                         </div>
                         )
                     }
@@ -70,7 +85,10 @@ class UserView extends Component{
                         <div key={comment.id} className="comment" onClick={() => this.props.history.push(`/recipe/${comment.recipeId}`)}>
                             <div className="response-img" style={{backgroundImage: `url(${comment.imgUrl})`}}></div>
                             <p>{comment.comment}</p>
-                            {user.id === this.state.pageUser.id ? <button className="delete-com">Delete</button> : null}
+                            {user.id === this.state.pageUser.id ? <button className="delete-com" onClick={(e) => {
+                                e.stopPropagation()
+                                this.commentDelete(comment.id);
+                            }}>Delete</button> : null}
                         </div>  
                     )
                     }

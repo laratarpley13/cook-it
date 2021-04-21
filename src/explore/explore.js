@@ -8,6 +8,8 @@ class Explore extends Component{
         users: this.context.allUsers,
         selectCatValue: 'all',
         selectDietValues: [],
+        selectedRecipes: this.context.recipes,
+        tagDict: {},
     }
     static contextType = Context;
 
@@ -37,93 +39,78 @@ class Explore extends Component{
         }
     }
 
-    handleFilter = (e, categories, tags, recipeTags) => {
+    handleFilter = (e) => {
         e.preventDefault();
+        const { categories, tags, recipeTags } = this.context
+        //reset state before each filter
+
+        let recWithTags = this.state.recipes.map(rec => {
+            rec.tags = recipeTags.filter(rt => rt.recipeId === rec.id).map(rt => rt.tagId);
+            return rec;
+        });
+        
         if(this.state.selectCatValue === "all"){
             if(this.state.selectDietValues.length > 0) {
                 let filteredTags = [];
                 for(let i=0; i<this.state.selectDietValues.length; i++) {
                     for(let j=0; j<tags.length; j++) {
                         if(this.state.selectDietValues[i] === tags[j].title) {
-                            filteredTags.push(tags[j])
+                            filteredTags.push(tags[j].id)
                         }
                     }
                 }
-                let filteredRecipeTags = [];
-                for(let i=0; i<filteredTags.length; i++) {
-                    for(let j=0; j<recipeTags.length; j++) {
-                        if(filteredTags[i].id === recipeTags[j].tagId) {
-                            filteredRecipeTags.push(recipeTags[j])
-                        }
-                    }
-                }
-                let filteredRecByTag = [];
-                for(let i=0; i<filteredRecipeTags.length; i++) {
-                    for(let j=0; j<this.state.recipes.length; j++) {
-                        if(filteredRecipeTags[i].recipeId === this.state.recipes[j].id) {
-                            filteredRecByTag.push(this.state.recipes[j]);
-                        }
-                    }
-                }
-                const removeUniqueRec = filteredRecByTag = Array.from(new Set(filteredRecByTag.map(rec => rec.id)))
-                    .map(id => {
-                        return filteredRecByTag.find(rec => rec.id === id)
-                    })
+
+                let filteredRecipes = recWithTags.filter(rec => filteredTags.every(val => rec.tags.includes(val)));
+                
                 this.setState({
-                    recipes: removeUniqueRec
+                    selectedRecipes: filteredRecipes
                 })
             }
             else {
                 this.setState({
-                    recipes: this.state.recipes
+                    selectedRecipes: this.state.recipes
                 })
             }
         } else {
             const targetCat = categories.filter(category => 
                 category.title === this.state.selectCatValue    
             )
-            const filteredCatRec = this.state.recipes.filter(recipe => 
+            const filteredCatRec = recWithTags.filter(recipe => 
                 recipe.categoryId === targetCat[0].id
             )
+
             if(this.state.selectDietValues.length > 0) {
                 let filteredTags = [];
                 for(let i=0; i<this.state.selectDietValues.length; i++) {
                     for(let j=0; j<tags.length; j++) {
                         if(this.state.selectDietValues[i] === tags[j].title) {
-                            filteredTags.push(tags[j])
+                            filteredTags.push(tags[j].id)
                         }
                     }
                 }
-                let filteredRecipeTags = [];
-                for(let i=0; i<filteredTags.length; i++) {
-                    for(let j=0; j<recipeTags.length; j++) {
-                        if(filteredTags[i].id === recipeTags[j].tagId) {
-                            filteredRecipeTags.push(recipeTags[j])
-                        }
-                    }
-                }
-                let filteredRecByTag = [];
-                for(let i=0; i<filteredRecipeTags.length; i++) {
-                    for(let j=0; j<filteredCatRec.length; j++) {
-                        if(filteredRecipeTags[i].recipeId === filteredCatRec[j].id) {
-                            filteredRecByTag.push(filteredCatRec[j]);
-                        }
-                    }
-                }
-                const removeUniqueRec = filteredRecByTag = Array.from(new Set(filteredRecByTag.map(rec => rec.id)))
-                    .map(id => {
-                        return filteredRecByTag.find(rec => rec.id === id)
-                    })
+
+                let filteredRecipes = filteredCatRec.filter(rec => filteredTags.every(val => rec.tags.includes(val)));
+
                 this.setState({
-                    recipes: removeUniqueRec
+                    selectedRecipes: filteredRecipes
                 })
             }
             else{            
                 this.setState({
-                    recipes: filteredCatRec
+                    selectedRecipes: filteredCatRec
                 })
             }
         }
+    }
+
+    componentDidMount() {
+        let tagDict ={};
+
+        this.context.tags.forEach(t => {
+            tagDict[t.id] = t.title;
+        })
+
+        this.setState({ tagDict: tagDict }, () => console.log(this.state.tagDict))
     }
 
     render() {
@@ -160,7 +147,7 @@ class Explore extends Component{
                 <div>
                     <h2>Explore</h2>
                     <section className="recipes">
-                        {this.state.recipes.map(recipe => 
+                        {this.state.selectedRecipes.map(recipe => 
                             <div key={recipe.id} className="recipe" onClick={() => this.props.history.push(`/recipe/${recipe.id}`)}>
                                 <div className="image" style={{backgroundImage: `url(${recipe.imgUrl})`}}></div>
                                 <h3>{recipe.name}</h3>
@@ -175,13 +162,9 @@ class Explore extends Component{
                                     {categories.filter(category => category.id === recipe.categoryId).map(filteredCat => 
                                         <span key={filteredCat.id} className="tag category">{filteredCat.title}</span>    
                                     )}
-                                    {tags.map(tag => {
-                                        for(let i=0; i<recipeTags.length; i++) {
-                                            if(tag.id === recipeTags[i].tagId && recipe.id === recipeTags[i].recipeId) {
-                                                return (<span key={i} className="tag">{tag.title}</span>)
-                                            }
-                                        }
-                                    })}
+                                    {recipeTags.filter(r => r.recipeId === recipe.id).map(r => r.tagId).map(tagId => 
+                                        <span key={tagId} className="tag">{tags.find(t => t.id === tagId).title}</span>
+                                    )}
                                 </div>
                             </div>
                         )}
