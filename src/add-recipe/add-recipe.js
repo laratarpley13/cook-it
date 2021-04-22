@@ -160,8 +160,8 @@ class AddRecipe extends Component {
                         <label htmlFor="category">Category:</label>
                         <select name="category" id="category" onChange={this.handleCatChange} required>
                             <option value="breakfast">breakfast</option>
-                            <option value="lunch">lunch</option>
-                            <option value="dinner">dinner</option>
+                            <option value="entree">entree</option>
+                            <option value="dessert">dessert</option>
                             <option value="snack">snack</option>
                             <option value="side">side</option>
                             <option value="drink">drink</option>
