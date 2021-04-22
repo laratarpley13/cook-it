@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 //import AuthAPIService from '../services/auth-api-service';
-//import TokenService from '../services/token-service';
+import TokenService from '../services/token-service';
 import './sign-in.css'
 
 class SignIn extends Component {
@@ -10,13 +10,14 @@ class SignIn extends Component {
 
     handleSignIn = (e) => {
         e.preventDefault();
-        /* const { email, password } = e.target;
-        this.setState({ error: null })
-        const user = {
+        //const { email, password } = e.target;
+        //this.setState({ error: null })
+        /* const user = {
             email: email.value,
             password: password.value,
         } */
         //AuthAPIService
+        TokenService.saveAuthToken('aksdfjkahgalskdjfla');
         this.props.history.push('/explore');
     }
 
@@ -36,12 +37,12 @@ class SignIn extends Component {
                             <label htmlFor="email">
                             Email:
                             </label>
-                            <input type="email" id="email" name="email" />
+                            <input type="email" id="email" name="email" defaultValue="demo1@demo.com" />
                             <br />
                             <label htmlFor="password">
                             Password:
                             </label>
-                            <input type="password" id="password" name="password" />
+                            <input type="password" id="password" name="password" defaultValue="P@ssowrd1234" />
                             <br />
                             <button type="submit">Submit</button>
                         </form>

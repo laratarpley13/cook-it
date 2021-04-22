@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-//import TokenService from '../src/services/token-service';
+import TokenService from '../src/services/token-service';
 import Context from './Context';
 import Landing from './landing/landing';
 import SignIn from './sign-in/sign-in';
@@ -176,43 +176,78 @@ class App extends Component {
             }
           />
           <Route path='/explore'
-            render={(props) => 
-              <Explore
-                {...props}
-              />
-            }
+            render={(props) => (
+              TokenService.hasAuthToken()
+                ? <Explore
+                    {...props}
+                  />
+                : <Redirect 
+                    to={{
+                      pathname: '/sign-in',
+                      state: { from: props.location }
+                    }}
+                  />
+            )}
           />
           <Route path='/user/:userId'
-            render={(props) => 
-              <UserView 
-                {...props}
-                handleRecDelete = {this.handleRecDelete}
-                handleComDelete = {this.handleComDelete}
-              />
-            }          
+            render={(props) => (
+              TokenService.hasAuthToken()
+              ? <UserView 
+                  {...props}
+                  handleRecDelete = {this.handleRecDelete}
+                  handleComDelete = {this.handleComDelete}
+                />
+              : <Redirect 
+                  to={{
+                    pathname: '/sign-in',
+                    state: { from: props.location }
+                  }}
+                />
+            )}          
           />
           <Route path='/recipe/:recipeId'
-            render={(props) => 
-              <RecipeView 
-                {...props}
-              />
-            }          
+            render={(props) => (
+              TokenService.hasAuthToken()
+              ? <RecipeView 
+                  {...props}
+                />
+              : <Redirect 
+                  to={{
+                    pathname: '/sign-in',
+                    state: { from: props.location }
+                  }}
+                />
+            )}          
           />
           <Route path='/add-recipe'
-            render={(props) => 
-              <AddRecipe 
-                {...props}
-                handleRecipeAdd={this.handleRecipeAdd}
-              />
-            }
+            render={(props) => (
+              TokenService.hasAuthToken()
+              ? <AddRecipe 
+                  {...props}
+                  handleRecipeAdd={this.handleRecipeAdd}
+                />
+              : <Redirect 
+                  to={{
+                    pathname: '/sign-in',
+                    state: { from: props.location }
+                  }}
+                />
+            )}
           />
           <Route path='/add-comment/:recipeId'
-            render={(props) => 
-              <AddComment 
-                {...props}
-                handleCommentAdd = {this.handleCommentAdd}
-              />
-            }
+            render={(props) => (
+              TokenService.hasAuthToken()
+              ? <AddComment 
+                  {...props}
+                  handleCommentAdd = {this.handleCommentAdd}
+                />
+              : <Redirect 
+                  to={{
+                    pathname: '/sign-in',
+                    state: { from: props.location }
+                  }}
+                />
+            )}
           />
         </main>
       </Context.Provider>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Context from '../Context';
+import TokenService from '../services/token-service';
 import './explore.css';
 
 class Explore extends Component{
@@ -14,7 +15,7 @@ class Explore extends Component{
     static contextType = Context;
 
     logout = () => {
-        //TokenService.clearAuthToken();
+        TokenService.clearAuthToken();
         this.props.history.push('/')
     }
 

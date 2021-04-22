@@ -16,7 +16,7 @@ function SignUp(props) {
                     <label for="email">
                     Email:
                     </label>
-                    <input type="text" id="email" name="email" />
+                    <input type="email" id="email" name="email" />
                     <br />
                     <label for="nickname">
                     Nickname:
@@ -26,12 +26,12 @@ function SignUp(props) {
                     <label for="password">
                     Password:
                     </label>
-                    <input type="text" id="password" name="password" />
+                    <input type="password" id="password" name="password" />
                     <br />
                     <label for="repeat-password">
                     Repeat Password:
                     </label>
-                    <input type="text" id="repeat-password" name="repeat-password" />
+                    <input type="password" id="repeat-password" name="repeat-password" />
                     <br />
                     <button type="submit">Submit</button>
                 </form>
