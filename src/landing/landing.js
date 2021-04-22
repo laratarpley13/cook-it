@@ -18,7 +18,7 @@ function Landing(props) {
             </div>
             <div className="how-it-works">
                 <h3>How it works:</h3>
-                <p>Post recipes that you have created on to your profile</p>
+                <p>Post recipes that you have created onto your profile</p>
                 <p>Browse Recipes in the "Explore" page, and sort by catogory or dietary tags</p>
                 <p>Try new recipes and leave a picture of your recipe re-make for others to see and your thoughts on the recipe!</p>
                 <p>Have fun creating and making new dishes!</p>

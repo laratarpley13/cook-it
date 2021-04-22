@@ -63,7 +63,7 @@ export default {
         },
         {
             id: 2,
-            title: "vegatarian"
+            title: "vegetarian"
         },
         {
             id: 3,

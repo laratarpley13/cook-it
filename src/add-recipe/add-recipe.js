@@ -117,7 +117,7 @@ class AddRecipe extends Component {
                 <h2>Add Recipe</h2>
                 <section className="add-recipe">
                     <form onSubmit={this.handleSubmit}>
-                        <p>Note: Please upload your image to<a href="https://imgur.com/">imgur</a>and use the image url for you recipe photo.</p>
+                        <p>Note: Please upload your image to<a href="https://imgur.com/" target="_blank" rel="noreferrer noopener">imgur</a>and use the image url for you recipe photo.</p>
                         <label htmlFor="imageurl">Image Url:</label>
                         <input name="imageurl" id="imageurl" type="text" value={this.state.imageurl} onChange={this.handleChange} required />
                         <br />
