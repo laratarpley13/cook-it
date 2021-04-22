@@ -3,7 +3,7 @@ import React from 'react';
 function EditRecipe() {
   return (
     <>
-        <header class="landing-nav">
+        <header className="landing-nav">
             <h1>CookIt</h1>
             <a href="#">My Recipes</a>
             <a href="#">Add Recipe</a>

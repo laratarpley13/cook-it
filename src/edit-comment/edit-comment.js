@@ -3,7 +3,7 @@ import React from 'react';
 function EditComment() {
   return (
     <>
-        <header class="landing-nav">
+        <header className="landing-nav">
             <h1>CookIt</h1>
             <a href="#">My Recipes</a>
             <a href="#">Add Recipe</a>
@@ -11,7 +11,7 @@ function EditComment() {
         </header>
         <div>
             <h2>Edit Comment</h2>
-            <section class="edit-comment">
+            <section className="edit-comment">
                 <form>
                     <label for="img-url">Image Url:</label>
                     <input name="img-url" id="img-url" type="text" />

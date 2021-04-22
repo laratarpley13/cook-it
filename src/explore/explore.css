@@ -18,8 +18,13 @@ header {
     color: white;
 }
 
-h1 {
-    font-size: 20px;
+header h1 {
+    font-size: 25px;
+    cursor: pointer;
+}
+
+header h1:hover {
+    color: darkolivegreen;
 }
 
 a {
@@ -61,6 +66,7 @@ h2 {
     border: 1px solid darkgray;
     flex-basis: 30%;
     margin: 20px;
+    cursor: pointer;
 }
 
 .recipe .image {
@@ -78,6 +84,8 @@ h2 {
 .recipe .user-link {
     padding-bottom: 15px;
     color: darkolivegreen;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .recipe p {

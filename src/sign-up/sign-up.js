@@ -4,13 +4,13 @@ import './sign-up.css';
 function SignUp(props) {
   return (
     <>
-        <header class="landing-nav">
+        <header className="landing-nav">
             <h1>CookIt</h1>
             <button onClick={() => props.history.push('/')}>Cancel</button>
             <button onClick={() => props.history.push('/sign-in')}>Sign In</button>
         </header>
         <div>
-            <div class="sign-up">
+            <div className="sign-up">
                 <h2>Sign Up</h2>
                 <form>
                     <label for="email">
