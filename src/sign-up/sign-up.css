@@ -22,8 +22,8 @@ header h1 {
     font-size: 25px;
 }
 
-a {
-    color: inherit;
+.error {
+    color: darkred;
 }
 
 .sign-up {

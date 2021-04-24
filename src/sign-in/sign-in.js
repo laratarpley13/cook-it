@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//import AuthAPIService from '../services/auth-api-service';
+import AuthAPIService from '../services/auth-api-service';
 import TokenService from '../services/token-service';
 import './sign-in.css'
 
@@ -10,15 +10,19 @@ class SignIn extends Component {
 
     handleSignIn = (e) => {
         e.preventDefault();
-        //const { email, password } = e.target;
-        //this.setState({ error: null })
-        /* const user = {
+        const { email, password } = e.target;
+        this.setState({ error: null })
+        const user = {
             email: email.value,
             password: password.value,
-        } */
-        //AuthAPIService
-        TokenService.saveAuthToken('aksdfjkahgalskdjfla');
-        this.props.history.push('/explore');
+        }
+        AuthAPIService.signinUser(user).then(signinResponse => {
+            TokenService.saveAuthToken(signinResponse.authToken)
+            //this.props.handleAuthToken(signinResponse.authToken)
+        }).catch((res) => {
+            this.setState({ error: res.message })
+        })
+        this.props.history.push('/explore')
     }
 
     render() {
