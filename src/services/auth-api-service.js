@@ -1,9 +1,10 @@
 import TokenService from "./token-service";
+import {API_BASE_URL} from "../config";
 
 /* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
 export default {
     postUser(user) {
-        return fetch(`http://localhost:8000/api/users`, {
+        return fetch(`${API_BASE_URL}/users`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -14,7 +15,7 @@ export default {
         );
     },
     signinUser(user) {
-        return fetch(`http://localhost:8000/api/auth/signin`, {
+        return fetch(`${API_BASE_URL}/auth/signin`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -25,7 +26,7 @@ export default {
         );
     },
     getUser() {
-        return fetch(`http://localhost:8000/api/users`, {
+        return fetch(`${API_BASE_URL}/users`, {
             method: 'GET',
             headers: {
                 'authorization': `bearer ${TokenService.hasAuthToken}`

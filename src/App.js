@@ -11,8 +11,10 @@ import RecipeView from './recipe-view/recipe-view';
 import AddRecipe from './add-recipe/add-recipe';
 //import EditRecipe from './edit-recipe/edit-recipe';
 import AddComment from './add-comment/add-comment';
+import { API_BASE_URL } from './config';
 //import EditComment from './edit-comment/edit-comment';
 import DummyData from './store';
+import tokenService from '../src/services/token-service';
 
 class App extends Component {
   state = {
@@ -136,6 +138,38 @@ class App extends Component {
     this.setState({
       recipes: newRecipes
     }, () => console.log(this.state.recipes))
+  }
+
+  componentDidMount() {
+    if(TokenService.getAuthToken()) {
+      fetch(`${API_BASE_URL}/categories`, {
+        method: 'GET',
+        headers: {
+          'authorization': `bearer ${TokenService.getAuthToken}`
+        }
+      }).then((catRes) => {
+        if(!catRes.ok) {
+          return catRes.json().then(e => Promise.reject(e))
+        }
+        return catRes.json()
+      }).then((catRes) => {
+        console.log(catRes)
+        fetch(`${API_BASE_URL}/tags`, {
+          method: 'GET',
+          headers: {
+            'authorization': `bearer ${tokenService.getAuthToken}`
+          }
+        }).then((tagRes) => {
+          if(!tagRes.ok) {
+            return tagRes.json().then(e => Promise.reject(e))
+          }
+          return tagRes.json()
+        }).then((tagRes) => {
+          console.log(tagRes)
+          fetch(`${API_BASE_URL}/recipetags`)
+        })
+      })
+    }
   }
 
   render() {

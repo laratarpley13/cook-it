@@ -18,11 +18,11 @@ class SignIn extends Component {
         }
         AuthAPIService.signinUser(user).then(signinResponse => {
             TokenService.saveAuthToken(signinResponse.authToken)
-            //this.props.handleAuthToken(signinResponse.authToken)
+            this.props.history.push('/explore')
         }).catch((res) => {
-            this.setState({ error: res.message })
+            console.log(res.error)
+            this.setState({error: res.message});
         })
-        this.props.history.push('/explore')
     }
 
     render() {
@@ -41,7 +41,7 @@ class SignIn extends Component {
                             <label htmlFor="email">
                             Email:
                             </label>
-                            <input type="email" id="email" name="email" defaultValue="demo1@demo.com" />
+                            <input type="email" id="email" name="email" defaultValue="demo6@demo.com" />
                             <br />
                             <label htmlFor="password">
                             Password:
