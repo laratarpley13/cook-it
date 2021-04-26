@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { API_BASE_URL } from '../config';
 import AuthAPIService from '../services/auth-api-service';
+import tokenService from '../services/token-service';
 import TokenService from '../services/token-service';
 import './sign-in.css'
 
@@ -18,6 +20,58 @@ class SignIn extends Component {
         }
         AuthAPIService.signinUser(user).then(signinResponse => {
             TokenService.saveAuthToken(signinResponse.authToken)
+            fetch(`${API_BASE_URL}/categories`, {
+                method: 'GET',
+                headers: {
+                    'authorization': `bearer ${TokenService.getAuthToken()}`
+                }
+            }).then((catRes) => {
+                if(!catRes.ok) {
+                    return catRes.json().then(e => Promise.reject(e))
+                }
+                return catRes.json()
+            }).then((catRes) => {
+                this.props.handleSetCat(catRes)
+                fetch(`${API_BASE_URL}/tags`, {
+                    method: 'GET',
+                    headers: {
+                        'authorization': `bearer ${tokenService.getAuthToken()}`
+                    }
+                }).then((tagRes) => {
+                    if(!tagRes.ok) {
+                        return tagRes.json().then(e => Promise.reject(e))
+                    }
+                    return tagRes.json() 
+                }).then((tagRes) => {
+                    this.props.handleSetTags(tagRes)
+                    fetch(`${API_BASE_URL}/recipetags`, {
+                        method: 'GET',
+                        headers: {
+                            'authorization': `bearer ${tokenService.getAuthToken()}`
+                        }
+                    }).then((recTagRes) => {
+                        if(!recTagRes.ok) {
+                            return recTagRes.json().then(e => Promise.reject(e))
+                        }
+                        return recTagRes.json()
+                    }).then((recTagRes) => {
+                        this.props.handleSetRecTags(recTagRes)
+                        fetch(`${API_BASE_URL}/users`, {
+                            method: 'GET',
+                            headers: {
+                                'authorization': `bearer ${tokenService.getAuthToken()}`
+                            }
+                        }).then((userRes) => {
+                            if(!userRes.ok) {
+                                return userRes.json().then(e => Promise.reject(e))
+                            }
+                            return userRes.json()
+                        }).then((userRes) => {
+                            this.props.handleSetUser(userRes)
+                        })
+                    })
+                })
+            })
             this.props.history.push('/explore')
         }).catch((res) => {
             console.log(res.error)

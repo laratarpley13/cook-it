@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { API_BASE_URL } from '../config';
 import Context from '../Context';
-import TokenService from '../services/token-service';
+import tokenService from '../services/token-service';
 import './user-view.css';
 
 class UserView extends Component{
@@ -12,7 +13,7 @@ class UserView extends Component{
   static contextType = Context;
 
   logout = () => {
-      TokenService.clearAuthToken();
+      tokenService.clearAuthToken();
       this.props.history.push('/')
   }
 
@@ -34,12 +35,45 @@ class UserView extends Component{
 
   componentDidMount() {
       const targetUserId = parseInt(this.props.match.params.userId);
-      const targetUser = this.context.allUsers.filter(user => user.id === targetUserId);
-      this.setState({ pageUser: targetUser[0] });
-      const targetRec = this.context.recipes.filter(recipe => recipe.userId === targetUserId);
-      this.setState({ recipes: targetRec });
-      const targetComments = this.context.comments.filter(comment => comment.userId === targetUserId);
-      this.setState({ comments: targetComments });
+      fetch(`${API_BASE_URL}/users/${targetUserId}`, {
+          method: 'GET',
+          headers: {
+              'authorization': `bearer ${tokenService.getAuthToken()}`
+          }
+      }).then((userRes) => {
+          if(!userRes.ok) {
+              return userRes.json().then(e => Promise.reject(e))
+          }
+          return userRes.json()
+      }).then((userRes) => {
+          this.setState({ pageUser: userRes }, console.log(userRes))
+          fetch(`${API_BASE_URL}/recipes/byuser/${targetUserId}`, {
+              method: 'GET',
+              headers: {
+                  'authorization': `bearer ${tokenService.getAuthToken()}`
+              }
+          }).then((recRes) => {
+              if(!recRes.ok) {
+                  return recRes.json().then(e => Promise.reject(e))
+              }
+              return recRes.json()
+          }).then((recRes) => {
+              this.setState({ recipes: recRes}, console.log(recRes))
+              fetch(`${API_BASE_URL}/comments/byuser/${targetUserId}`, {
+                  method: 'GET',
+                  headers: {
+                      'authorization': `bearer ${tokenService.getAuthToken()}`
+                  }
+              }).then((comRes) => {
+                  if(!comRes.ok) {
+                      return comRes.json().then(e => Promise.reject(e))
+                  }
+                  return comRes.json()
+              }).then((comRes) => {
+                  this.setState({ comments:comRes}, console.log(comRes))
+              })
+          })
+      }).catch(error => console.error(error))
   }
 
   render() {
@@ -59,15 +93,15 @@ class UserView extends Component{
                     <p>{this.state.pageUser.nickname} has no recipes yet</p>
                     : this.state.recipes.map(recipe => 
                         <div key={recipe.id} className="recipe" onClick={() => this.props.history.push(`/recipe/${recipe.id}`)}>
-                            <div className="image" style={{backgroundImage: `url(${recipe.imgUrl})`}}></div>
+                            <div className="image" style={{backgroundImage: `url(${recipe.imgurl})`}}></div>
                             <h3>{recipe.title}</h3>
                             <p>{recipe.description}</p>
                             <div className="tag-container">
-                                {categories.filter(category => category.id === recipe.categoryId).map(filteredCat => 
+                                {categories.filter(category => category.id === recipe.categoryid).map(filteredCat => 
                                     <span key={filteredCat.id} className="tag category">{filteredCat.title}</span>    
                                 )}
-                                {recipeTags.filter(r => r.recipeId === recipe.id).map(r => r.tagId).map(tagId => 
-                                    <span key={tagId} className="tag">{tags.find(t => t.id === tagId).title}</span>
+                                {recipeTags.filter(r => r.recipeid === recipe.id).map(r => r.tagid).map(tagid => 
+                                    <span key={tagid} className="tag">{tags.find(t => t.id === tagid).title}</span>
                                 )}
                             </div>
                             {user.id === this.state.pageUser.id ? <button className="delete-rec" onClick={(e) => {
@@ -83,8 +117,8 @@ class UserView extends Component{
                     {this.state.comments.length === 0 ?
                     <p>{this.state.pageUser.nickname} has no recipe attempts yet</p> 
                     : this.state.comments.map(comment => 
-                        <div key={comment.id} className="comment" onClick={() => this.props.history.push(`/recipe/${comment.recipeId}`)}>
-                            <div className="response-img" style={{backgroundImage: `url(${comment.imgUrl})`}}></div>
+                        <div key={comment.id} className="comment" onClick={() => this.props.history.push(`/recipe/${comment.recipeid}`)}>
+                            <div className="response-img" style={{backgroundImage: `url(${comment.imgurl})`}}></div>
                             <p>{comment.comment}</p>
                             {user.id === this.state.pageUser.id ? <button className="delete-com" onClick={(e) => {
                                 e.stopPropagation()

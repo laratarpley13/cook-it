@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
+import { API_BASE_URL } from '../config';
 import Context from '../Context';
+import tokenService from '../services/token-service';
 import TokenService from '../services/token-service';
 import './explore.css';
 
 class Explore extends Component{
     state = {
-        recipes: this.context.recipes,
-        users: this.context.allUsers,
+        recipes: [],
+        users: [],
         selectCatValue: 'all',
         selectDietValues: [],
-        selectedRecipes: this.context.recipes,
+        selectedRecipes: [],
         tagDict: {},
     }
     static contextType = Context;
@@ -43,10 +45,9 @@ class Explore extends Component{
     handleFilter = (e) => {
         e.preventDefault();
         const { categories, tags, recipeTags } = this.context
-        //reset state before each filter
 
         let recWithTags = this.state.recipes.map(rec => {
-            rec.tags = recipeTags.filter(rt => rt.recipeId === rec.id).map(rt => rt.tagId);
+            rec.tags = recipeTags.filter(rt => rt.recipeid === rec.id).map(rt => rt.tagid);
             return rec;
         });
         
@@ -77,7 +78,7 @@ class Explore extends Component{
                 category.title === this.state.selectCatValue    
             )
             const filteredCatRec = recWithTags.filter(recipe => 
-                recipe.categoryId === targetCat[0].id
+                recipe.categoryid === targetCat[0].id
             )
 
             if(this.state.selectDietValues.length > 0) {
@@ -112,6 +113,33 @@ class Explore extends Component{
         })
 
         this.setState({ tagDict: tagDict }, () => console.log(this.state.tagDict))
+
+        fetch(`${API_BASE_URL}/users/all`, {
+            method: 'GET',
+            headers: {
+                'authorization': `bearer ${tokenService.getAuthToken()}`
+            }
+        }).then((userRes) => {
+            if(!userRes.ok) {
+                return userRes.json().then(e => Promise.reject(e))
+            }
+            return userRes.json()
+        }).then((userRes) => {
+            this.setState({ users: userRes })
+            fetch(`${API_BASE_URL}/recipes`, {
+                method: 'GET',
+                headers: {
+                    'authorization': `bearer ${tokenService.getAuthToken()}`
+                }
+            }).then((recRes) => {
+                if(!recRes.ok) {
+                    return recRes.json().then(e => Promise.reject(e))
+                }
+                return recRes.json()
+            }).then((recRes) => {
+                this.setState({ recipes: recRes, selectedRecipes: recRes })
+            })
+        }).catch(error => console.error(error))
     }
 
     render() {
@@ -150,9 +178,9 @@ class Explore extends Component{
                     <section className="recipes">
                         {this.state.selectedRecipes.map(recipe => 
                             <div key={recipe.id} className="recipe" onClick={() => this.props.history.push(`/recipe/${recipe.id}`)}>
-                                <div className="image" style={{backgroundImage: `url(${recipe.imgUrl})`}}></div>
-                                <h3>{recipe.name}</h3>
-                                {this.state.users.filter(user => user.id === recipe.userId).map(filteredUser =>
+                                <div className="image" style={{backgroundImage: `url(${recipe.imgurl})`}}></div>
+                                <h3>{recipe.title}</h3>
+                                {this.state.users.filter(user => user.id === recipe.userid).map(filteredUser =>
                                     <h4 key={filteredUser.id} className="user-link" onClick={(e) => {
                                         e.stopPropagation();
                                         this.props.history.push(`/user/${filteredUser.id}`);
@@ -160,11 +188,11 @@ class Explore extends Component{
                                 )}
                                 <p>{recipe.description}</p>
                                 <div className="tag-container">
-                                    {categories.filter(category => category.id === recipe.categoryId).map(filteredCat => 
+                                    {categories.filter(category => category.id === recipe.categoryid).map(filteredCat => 
                                         <span key={filteredCat.id} className="tag category">{filteredCat.title}</span>    
                                     )}
-                                    {recipeTags.filter(r => r.recipeId === recipe.id).map(r => r.tagId).map(tagId => 
-                                        <span key={tagId} className="tag">{tags.find(t => t.id === tagId).title}</span>
+                                    {recipeTags.filter(r => r.recipeid === recipe.id).map(r => r.tagid).map(tagid => 
+                                        <span key={tagid} className="tag">{tags.find(t => t.id === tagid).title}</span>
                                     )}
                                 </div>
                             </div>

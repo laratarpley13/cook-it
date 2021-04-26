@@ -1,60 +1,160 @@
 import React, { Component } from 'react';
 import Context from '../Context';
-import TokenService from '../services/token-service';
+import tokenService from '../services/token-service';
+import { API_BASE_URL } from '../config';
 import './add-recipe.css';
 
 class AddRecipe extends Component {
-  state = {
-      imageurl: "",
-      name: "",
-      description: "",
-      ingredients: [{title: "Ingredient here", amount: "amount here"}],
-      directions: ['First Step here'],
-      category: 'breakfast',
-      tags: [],
-  }
-  static contextType = Context;
-  
-  logout = () => {
-    TokenService.clearAuthToken();
-    this.props.history.push('/')
-  }
+state = {
+    imageurl: "",
+    name: "",
+    description: "",
+    ingredients: [{title: "", amount: ""}],
+    directions: [''],
+    category: 'breakfast',
+    tags: [],
+}
+static contextType = Context;
 
-  handleSubmit = (e) => {
-      e.preventDefault()
-      const { name, imageurl, description, ingredients, directions, category, tags } = this.state;
-      this.props.handleRecipeAdd(name, imageurl, description, ingredients, directions, category, tags)
-      
-      //make a post request to the database
-      this.props.history.push(`/explore`);
-  }
+logout = () => {
+tokenService.clearAuthToken();
+this.props.history.push('/')
+}
 
-  handleText = (e) => {
+handleSubmit = (e) => {
+    e.preventDefault()
+    const { name, imageurl, description, ingredients, directions, category, tags } = this.state;
+    let targetCatId = this.context.categories.filter(cat => cat.title === category);
+    targetCatId = targetCatId[0].id;
+    const newRecipe = {
+        userid: this.context.user.id,
+        categoryid: targetCatId,
+        title: name,
+        description: description,
+        imgurl: imageurl
+    }
+    let targetTagsId = [];
+    for (let i=0; i<this.context.tags.length; i++) {
+        for(let j=0; j<tags.length; j++) {
+            if(this.context.tags[i].title === tags[j]) {
+                targetTagsId.push(this.context.tags[i].id)
+            }
+        }
+    }
+    //this.props.handleRecipeAdd(name, imageurl, description, ingredients, directions, category, tags)
+    //make a post request to the database
+    fetch(`${API_BASE_URL}/recipes`, {
+        method: 'POST',
+        body: JSON.stringify(newRecipe),
+        headers: {
+            'authorization': `bearer ${tokenService.getAuthToken()}`,
+            'content-type': 'application/json'
+        }
+    }).then(res => {
+        if(!res.ok) {
+            return res.json().then(e => Promise.reject(e))
+        }
+        return res.json()
+    }).then(data => {
+        //handle ingredient add to db
+        let formatedIng = ingredients.map(ingredient => {
+            return {
+                recipeid: data.id,
+                title: ingredient.title,
+                amount: ingredient.amount
+            }
+        })
+        let requests = formatedIng.map(ingredient => {
+            return fetch(`${API_BASE_URL}/ingredients`, {
+                method: 'POST',
+                body: JSON.stringify(ingredient),
+                headers: {
+                    'authorization': `bearer ${tokenService.getAuthToken()}`,
+                    'content-type': 'application/json'
+                }
+            })
+        })
+        Promise.all(requests)
+            .then(responses => {
+                return responses
+            })
+            .then(responses => Promise.all(responses.map(r => r.json())))
+
+        //handle step add to db
+        let formattedSteps = directions.map(dir => {
+            return {
+                recipeid: data.id,
+                text: dir
+            }
+        })
+        let stepRequests = formattedSteps.map(step => {
+            return fetch(`${API_BASE_URL}/steps`, {
+                method: 'POST',
+                body: JSON.stringify(step),
+                headers: {
+                    'authorization': `bearer ${tokenService.getAuthToken()}`,
+                    'content-type': 'application/json'
+                }
+            })
+        })
+        Promise.all(stepRequests)
+            .then(responses => {
+                return responses
+            })
+            .then(responses => Promise.all(responses.map(r => r.json())))
+
+        //handle recipeTags add to db
+        let formatRecTags = targetTagsId.map(tagid => {
+            return {
+                recipeid: data.id,
+                tagid: tagid
+            }
+        }) 
+        let recTagRequests = formatRecTags.map(recTag => {
+            return fetch(`${API_BASE_URL}/recipetags`, {
+                method: 'POST',
+                body: JSON.stringify(recTag),
+                headers: {
+                    'authorization': `bearer ${tokenService.getAuthToken()}`,
+                    'content-type': 'application/json'
+                }
+            })
+        })
+        Promise.all(recTagRequests)
+            .then(responses => {
+                return responses
+            })
+            .then(responses => Promise.all(responses.map(r => r.json())))
+            this.props.history.push('/explore')
+    }).catch(error => console.error(error))
+}
+
+handleText = (e) => {
     let ingredients = [...this.state.ingredients]
     ingredients[e.target.dataset.id][e.target.className] = e.target.value
     this.setState({ ingredients })
-  }
+}
 
-  handleDirText = e => {
+handleDirText = e => {
     let directions = [...this.state.directions]
     directions[e.target.dataset.id] = e.target.value
     this.setState({
         directions
     })
-  }
+}
 
-  handleDelete = (i) => e => {
-      e.preventDefault()
-      let ingredients = [
-          ...this.state.ingredients.slice(0, i),
-          ...this.state.ingredients.slice(i + 1)
-      ]
-      this.setState({
-          ingredients
-      })
-  }
+handleDelete = (i) => e => {
+    e.preventDefault()
+    let ingredients = [
+        ...this.state.ingredients.slice(0, i),
+        ...this.state.ingredients.slice(i + 1)
+    ]
+    this.setState({
+        ingredients
+    })
+}
 
-  handleDirDelete = (i) => e => {
+handleDirDelete = (i) => e => {
     e.preventDefault()
     let directions = [
         ...this.state.directions.slice(0, i),
@@ -62,46 +162,46 @@ class AddRecipe extends Component {
     ]
     this.setState({
         directions
-  })
+    })
 }
 
-  addIngredient = e => {
-      this.setState((prevState) => ({
-          ingredients: [...prevState.ingredients, {title:"", amount:""}]
-      }))
-  }
+addIngredient = e => {
+    this.setState((prevState) => ({
+        ingredients: [...prevState.ingredients, {title:"", amount:""}]
+    }))
+}
 
-  addDirection = e => {
+addDirection = e => {
     let directions = this.state.directions.concat([''])
     this.setState({
         directions
     })
-  }
+}
 
-  handleTagChange = (e) => {
-      const isChecked = e.target.checked;
-      const checkedValue = e.target.value;
-      if(isChecked) {
-          this.setState({
-              tags: [...this.state.tags, checkedValue]
-          })
-      } else {
-          const newValues = this.state.tags.filter(tag => 
-            tag !== checkedValue  
-          )
-          this.setState({
-              tags: newValues
-          })
-      }
-  }
+handleTagChange = (e) => {
+    const isChecked = e.target.checked;
+    const checkedValue = e.target.value;
+    if(isChecked) {
+        this.setState({
+            tags: [...this.state.tags, checkedValue]
+        })
+    } else {
+        const newValues = this.state.tags.filter(tag => 
+        tag !== checkedValue  
+        )
+        this.setState({
+            tags: newValues
+        })
+    }
+}
 
-  handleCatChange = (e) => {
-      this.setState({category: e.target.value})
-  }
+handleCatChange = (e) => {
+    this.setState({category: e.target.value})
+}
 
-  handleChange = (e) => {
-      this.setState({ [e.target.name]: e.target.value })
-  }
+handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value })
+}
 
   render() {
     const {user, tags} = this.context;

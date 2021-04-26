@@ -13,27 +13,42 @@ import AddRecipe from './add-recipe/add-recipe';
 import AddComment from './add-comment/add-comment';
 import { API_BASE_URL } from './config';
 //import EditComment from './edit-comment/edit-comment';
-import DummyData from './store';
+//import DummyData from './store';
 import tokenService from '../src/services/token-service';
 
 class App extends Component {
   state = {
-    user: {
-      id: 1,
-      email: "demo@demo.com",
-      nickname: "Demo Cook",
-    },
-    recipes: DummyData.recipes,
-    allUsers: DummyData.users,
-    ingredients: DummyData.ingredients,
-    steps: DummyData.steps,
-    comments: DummyData.comments,
-    categories: DummyData.categories,
-    tags: DummyData.tags,
-    recipeTags: DummyData.recipeTags,
+    user: {},
+    categories: [],
+    tags: [],
+    recipeTags: [],
   }
 
-  handleRecipeAdd = (name, imageurl, description, ingredients, directions, category, tags) => {
+  handleSetCat = (categories) => {
+    this.setState({
+      categories: categories
+    }, console.log(this.state.categories))
+  }
+
+  handleSetTags = (tags) => {
+    this.setState({
+      tags: tags
+    }, console.log(this.state.tags))
+  }
+
+  handleSetRecTags = (recTags) => {
+    this.setState({
+      recipeTags: recTags
+    }, console.log(this.state.recipeTags))
+  }
+
+  handleSetUser = (user) => {
+    this.setState({
+      user: user
+    }, console.log(this.state.user))
+  }
+
+/*   handleRecipeAdd = (name, imageurl, description, ingredients, directions, category, tags) => {
     let targetCatId = this.state.categories.filter(cat => cat.title === category);
     targetCatId = targetCatId[0].id;
 
@@ -106,9 +121,9 @@ class App extends Component {
     this.setState({
       recipeTags: this.state.recipeTags.concat(formattedRecId)
     });    
-  }
+  } */
 
-  handleCommentAdd = (imageurl, comment, recipeId) => {
+  /* handleCommentAdd = (imageurl, comment, recipeId) => {
     const formattedCom = {
       id: this.state.comments.length,
       recipeId: recipeId,
@@ -120,9 +135,9 @@ class App extends Component {
     this.setState({
       comments: [...this.state.comments, formattedCom]
     })
-  }
+  } */
 
-  handleComDelete = (commentId) => {
+ /*  handleComDelete = (commentId) => {
     console.log(commentId); //debugging
     const newComments = this.state.comments.filter(comment => comment.id !== commentId)
     this.setState({
@@ -138,14 +153,14 @@ class App extends Component {
     this.setState({
       recipes: newRecipes
     }, () => console.log(this.state.recipes))
-  }
+  } */
 
   componentDidMount() {
     if(TokenService.getAuthToken()) {
       fetch(`${API_BASE_URL}/categories`, {
         method: 'GET',
         headers: {
-          'authorization': `bearer ${TokenService.getAuthToken}`
+          'authorization': `bearer ${TokenService.getAuthToken()}`
         }
       }).then((catRes) => {
         if(!catRes.ok) {
@@ -153,11 +168,11 @@ class App extends Component {
         }
         return catRes.json()
       }).then((catRes) => {
-        console.log(catRes)
+        this.handleSetCat(catRes)
         fetch(`${API_BASE_URL}/tags`, {
           method: 'GET',
           headers: {
-            'authorization': `bearer ${tokenService.getAuthToken}`
+            'authorization': `bearer ${tokenService.getAuthToken()}`
           }
         }).then((tagRes) => {
           if(!tagRes.ok) {
@@ -165,10 +180,35 @@ class App extends Component {
           }
           return tagRes.json()
         }).then((tagRes) => {
-          console.log(tagRes)
-          fetch(`${API_BASE_URL}/recipetags`)
+          this.handleSetTags(tagRes)
+          fetch(`${API_BASE_URL}/recipetags`, {
+            method: 'GET',
+            headers: {
+              'authorization': `bearer ${tokenService.getAuthToken()}`
+            }
+          }).then((recTagRes) => {
+            if(!recTagRes.ok) {
+              return recTagRes.json().then(e => Promise.reject(e))
+            }
+            return recTagRes.json()
+          }).then((recTagRes) => {
+            this.handleSetRecTags(recTagRes)
+            fetch(`${API_BASE_URL}/users`, {
+              method: 'GET', 
+              headers: {
+                'authorization': `bearer ${tokenService.getAuthToken()}`
+              }
+            }).then((userRes) => {
+              if(!userRes.ok) {
+                return userRes.json().then(e => Promise.reject(e))
+              }
+              return userRes.json()
+            }).then((userRes) => {
+              this.handleSetUser(userRes)
+            })
+          })
         })
-      })
+      }).catch(error => console.error(error))
     }
   }
 
@@ -176,11 +216,6 @@ class App extends Component {
     console.log(this.state);
     const value = {
       user: this.state.user,
-      recipes: this.state.recipes,
-      allUsers: this.state.allUsers,
-      ingredients: this.state.ingredients,
-      steps: this.state.steps,
-      comments: this.state.comments,
       categories: this.state.categories,
       tags: this.state.tags,
       recipeTags: this.state.recipeTags,
@@ -206,6 +241,10 @@ class App extends Component {
             render={(props) => 
               <SignIn
                 {...props}
+                handleSetCat = {this.handleSetCat}
+                handleSetTags = {this.handleSetTags}
+                handleSetRecTags = {this.handleSetRecTags}
+                handleSetUser = {this.handleSetUser}
               />
             }
           />
