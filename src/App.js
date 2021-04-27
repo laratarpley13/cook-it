@@ -9,11 +9,8 @@ import Explore from './explore/explore';
 import UserView from './user-view/user-view';
 import RecipeView from './recipe-view/recipe-view';
 import AddRecipe from './add-recipe/add-recipe';
-//import EditRecipe from './edit-recipe/edit-recipe';
 import AddComment from './add-comment/add-comment';
 import { API_BASE_URL } from './config';
-//import EditComment from './edit-comment/edit-comment';
-//import DummyData from './store';
 import tokenService from '../src/services/token-service';
 
 class App extends Component {
@@ -21,7 +18,6 @@ class App extends Component {
     user: {},
     categories: [],
     tags: [],
-    recipeTags: [],
   }
 
   handleSetCat = (categories) => {
@@ -36,124 +32,11 @@ class App extends Component {
     }, console.log(this.state.tags))
   }
 
-  handleSetRecTags = (recTags) => {
-    this.setState({
-      recipeTags: recTags
-    }, console.log(this.state.recipeTags))
-  }
-
   handleSetUser = (user) => {
     this.setState({
       user: user
     }, console.log(this.state.user))
   }
-
-/*   handleRecipeAdd = (name, imageurl, description, ingredients, directions, category, tags) => {
-    let targetCatId = this.state.categories.filter(cat => cat.title === category);
-    targetCatId = targetCatId[0].id;
-
-    const newRecId = this.state.recipes.length + 1;
-
-    console.log(ingredients); //debugging
-    console.log(directions); //debugging
-
-    const newRecipe = {
-      id: newRecId,
-      userId: this.state.user.id,
-      categoryId: targetCatId,
-      title: name,
-      description: description,
-      imgUrl: imageurl 
-    }
-
-    this.setState({
-      recipes: [...this.state.recipes, newRecipe]
-    })
-    console.log(newRecipe);
-
-    let ingCount = this.state.ingredients.length
-
-    let formattedIng = ingredients.map(ingredient => {
-      ingCount ++;
-      return ({
-        id: ingCount,
-        recipeId: newRecId,
-        title: ingredient.title,
-        amount: ingredient.amount
-      })
-    })
-
-    this.setState({
-      ingredients: this.state.ingredients.concat(formattedIng)
-    });
-
-    let stepCount = this.state.steps.length
-
-    let formattedSteps = directions.map(dir => {
-      stepCount ++;
-      return ({
-        id: stepCount,
-        recipeId: newRecId,
-        text: dir,
-      })
-    })
-
-    this.setState({
-      steps: this.state.steps.concat(formattedSteps)
-    });
-
-    let targetTags = [];
-    for(let i=0; i<this.state.tags.length; i++) {
-      for(let j=0; j<tags.length; j++) {
-        if(this.state.tags[i].title === tags[j]) {
-          targetTags.push(this.state.tags[i])
-        }
-      }
-    }
-
-    let formattedRecId = targetTags.map(tag => {
-      return {
-        recipeId: newRecId,
-        tagId: tag.id
-      }
-    })
-
-    this.setState({
-      recipeTags: this.state.recipeTags.concat(formattedRecId)
-    });    
-  } */
-
-  /* handleCommentAdd = (imageurl, comment, recipeId) => {
-    const formattedCom = {
-      id: this.state.comments.length,
-      recipeId: recipeId,
-      userId: this.state.user.id,
-      comment: comment,
-      imgUrl: imageurl
-    }
-
-    this.setState({
-      comments: [...this.state.comments, formattedCom]
-    })
-  } */
-
- /*  handleComDelete = (commentId) => {
-    console.log(commentId); //debugging
-    const newComments = this.state.comments.filter(comment => comment.id !== commentId)
-    this.setState({
-      comments: newComments
-    }, () => console.log(this.state.comments))
-  }
-
-  handleRecDelete = (recipeId) => {
-    console.log(recipeId) //debugging
-    const newRecipes = this.state.recipes.filter(recipe =>
-      recipe.id !== recipeId  
-    )
-    this.setState({
-      recipes: newRecipes
-    }, () => console.log(this.state.recipes))
-  } */
 
   componentDidMount() {
     if(TokenService.getAuthToken()) {
@@ -181,31 +64,18 @@ class App extends Component {
           return tagRes.json()
         }).then((tagRes) => {
           this.handleSetTags(tagRes)
-          fetch(`${API_BASE_URL}/recipetags`, {
-            method: 'GET',
+          fetch(`${API_BASE_URL}/users`, {
+            method: 'GET', 
             headers: {
               'authorization': `bearer ${tokenService.getAuthToken()}`
             }
-          }).then((recTagRes) => {
-            if(!recTagRes.ok) {
-              return recTagRes.json().then(e => Promise.reject(e))
+          }).then((userRes) => {
+            if(!userRes.ok) {
+              return userRes.json().then(e => Promise.reject(e))
             }
-            return recTagRes.json()
-          }).then((recTagRes) => {
-            this.handleSetRecTags(recTagRes)
-            fetch(`${API_BASE_URL}/users`, {
-              method: 'GET', 
-              headers: {
-                'authorization': `bearer ${tokenService.getAuthToken()}`
-              }
-            }).then((userRes) => {
-              if(!userRes.ok) {
-                return userRes.json().then(e => Promise.reject(e))
-              }
-              return userRes.json()
-            }).then((userRes) => {
-              this.handleSetUser(userRes)
-            })
+            return userRes.json()
+          }).then((userRes) => {
+            this.handleSetUser(userRes)
           })
         })
       }).catch(error => console.error(error))
@@ -218,7 +88,6 @@ class App extends Component {
       user: this.state.user,
       categories: this.state.categories,
       tags: this.state.tags,
-      recipeTags: this.state.recipeTags,
     }
     return (
       <Context.Provider value={value}>

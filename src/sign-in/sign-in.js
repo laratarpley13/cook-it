@@ -44,31 +44,18 @@ class SignIn extends Component {
                     return tagRes.json() 
                 }).then((tagRes) => {
                     this.props.handleSetTags(tagRes)
-                    fetch(`${API_BASE_URL}/recipetags`, {
+                    fetch(`${API_BASE_URL}/users`, {
                         method: 'GET',
                         headers: {
                             'authorization': `bearer ${tokenService.getAuthToken()}`
                         }
-                    }).then((recTagRes) => {
-                        if(!recTagRes.ok) {
-                            return recTagRes.json().then(e => Promise.reject(e))
+                    }).then((userRes) => {
+                        if(!userRes.ok) {
+                            return userRes.json().then(e => Promise.reject(e))
                         }
-                        return recTagRes.json()
-                    }).then((recTagRes) => {
-                        this.props.handleSetRecTags(recTagRes)
-                        fetch(`${API_BASE_URL}/users`, {
-                            method: 'GET',
-                            headers: {
-                                'authorization': `bearer ${tokenService.getAuthToken()}`
-                            }
-                        }).then((userRes) => {
-                            if(!userRes.ok) {
-                                return userRes.json().then(e => Promise.reject(e))
-                            }
-                            return userRes.json()
-                        }).then((userRes) => {
-                            this.props.handleSetUser(userRes)
-                        })
+                        return userRes.json()
+                    }).then((userRes) => {
+                        this.props.handleSetUser(userRes)
                     })
                 })
             })

@@ -27,10 +27,6 @@ header h1:hover {
     color: darkolivegreen;
 }
 
-a {
-    color: inherit;
-}
-
 .filter-nav {
     background-color: lightgray;
     padding: 20px;
