@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { API_BASE_URL } from '../config';
 import Context from '../Context';
-import TokenService from '../services/token-service';
+import tokenService from '../services/token-service';
 import './add-comment.css';
 
 class AddComment extends Component {
@@ -12,7 +13,7 @@ class AddComment extends Component {
     static contextType = Context;
 
     logout = () => {
-        TokenService.clearAuthToken();
+        tokenService.clearAuthToken();
         this.props.history.push('/')
     }
 
@@ -24,8 +25,29 @@ class AddComment extends Component {
         e.preventDefault()
         const targetRecId = parseInt(this.props.match.params.recipeId);
         const { imageurl, comment } = this.state;
-        this.props.handleCommentAdd(imageurl, comment, targetRecId);
-        this.props.history.push(`/recipe/${targetRecId}`);
+        const newComment = {
+            recipeid: targetRecId,
+            userid: this.context.user.id,
+            imgurl: imageurl,
+            comment: comment 
+        }
+        fetch(`${API_BASE_URL}/comments`, {
+            method: 'POST',
+            body: JSON.stringify(newComment),
+            headers: {
+                'authorization': `bearer ${tokenService.getAuthToken()}`,
+                'content-type': 'application/json'
+            }
+        }).then((comRes) => {
+            if(!comRes.ok) {
+                return comRes.json().then(e => Promise.reject(e))
+            }
+            return comRes.json()
+        }).then((comRes) => {
+            this.props.history.push(`/recipe/${targetRecId}`);
+        })
+        //this.props.handleCommentAdd(imageurl, comment, targetRecId);
+        //this.props.history.push(`/recipe/${targetRecId}`);
     }
 
     render() {
