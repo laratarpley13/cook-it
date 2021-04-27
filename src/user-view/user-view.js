@@ -9,6 +9,7 @@ class UserView extends Component{
       pageUser: {},
       recipes: [],
       comments: [],
+      recipetags: [],
   }
   static contextType = Context;
 
@@ -18,19 +19,41 @@ class UserView extends Component{
   }
 
   commentDelete = (commentId) => {
-      this.props.handleComDelete(commentId)
+      //this.props.handleComDelete(commentId)
       const targetComments = this.state.comments.filter(comment => 
         comment.id !== commentId  
       )
-      this.setState({comments: targetComments})
+      this.setState({comments: targetComments}, () => {
+          fetch(`${API_BASE_URL}/comments/${commentId}`, {
+              method: 'DELETE',
+              headers: {
+                  'authorization': `bearer ${tokenService.getAuthToken()}`,
+                  'content-type': 'application/json'
+              }
+          }).then(res => res)
+          .catch(error => {
+              console.error({error})
+          })
+      })
   }
 
   recipeDelete = (recipeId) => {
-      this.props.handleRecDelete(recipeId)
+      //this.props.handleRecDelete(recipeId)
       const targetRecipes = this.state.recipes.filter(recipe =>
         recipe.id !== recipeId  
       )
-      this.setState({recipes: targetRecipes})
+      this.setState({recipes: targetRecipes}, () => {
+          fetch(`${API_BASE_URL}/recipes/${recipeId}`, {
+              method: 'DELETE',
+              headers: {
+                  'authorization': `bearer ${tokenService.getAuthToken()}`,
+                  'content-type': 'application/json'
+              }
+          }).then(res => res)
+          .catch(error => {
+              console.error({error})
+          })
+      })
   }
 
   componentDidMount() {
@@ -59,25 +82,43 @@ class UserView extends Component{
               return recRes.json()
           }).then((recRes) => {
               this.setState({ recipes: recRes}, console.log(recRes))
-              fetch(`${API_BASE_URL}/comments/byuser/${targetUserId}`, {
-                  method: 'GET',
-                  headers: {
-                      'authorization': `bearer ${tokenService.getAuthToken()}`
-                  }
-              }).then((comRes) => {
-                  if(!comRes.ok) {
-                      return comRes.json().then(e => Promise.reject(e))
-                  }
-                  return comRes.json()
-              }).then((comRes) => {
-                  this.setState({ comments:comRes}, console.log(comRes))
-              })
           })
       }).catch(error => console.error(error))
+
+      //get comments
+      fetch(`${API_BASE_URL}/comments/byuser/${targetUserId}`, {
+          method: 'GET',
+          headers: {
+              'authorization': `bearer ${tokenService.getAuthToken()}`
+          }
+      }).then((comRes) => {
+          if(!comRes.ok) {
+              return comRes.json().then(e => Promise.reject(e))
+          }
+          return comRes.json()
+      }).then((comRes) => {
+          this.setState({ comments: comRes })
+      }).catch(error => console.error(error))
+
+      //get recipeTags
+      fetch(`${API_BASE_URL}/recipetags`, {
+          method: 'GET',
+          headers: {
+              'authorization': `bearer ${tokenService.getAuthToken()}`
+          }
+      }).then(recTagRes => {
+          if(!recTagRes.ok) {
+              return recTagRes.json().then(e => Promise.reject(e))
+          }
+          return recTagRes.json()
+      }).then(recTagRes => {
+          this.setState({ recipetags: recTagRes })
+      })
+
   }
 
   render() {
-    const {user, categories, tags, recipeTags} = this.context;
+    const {user, categories, tags} = this.context;
     return (
         <>
             <header className="landing-nav">
@@ -100,7 +141,7 @@ class UserView extends Component{
                                 {categories.filter(category => category.id === recipe.categoryid).map(filteredCat => 
                                     <span key={filteredCat.id} className="tag category">{filteredCat.title}</span>    
                                 )}
-                                {recipeTags.filter(r => r.recipeid === recipe.id).map(r => r.tagid).map(tagid => 
+                                {this.state.recipetags.filter(r => r.recipeid === recipe.id).map(r => r.tagid).map(tagid => 
                                     <span key={tagid} className="tag">{tags.find(t => t.id === tagid).title}</span>
                                 )}
                             </div>

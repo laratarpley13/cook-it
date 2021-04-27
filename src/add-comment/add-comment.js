@@ -45,9 +45,9 @@ class AddComment extends Component {
             return comRes.json()
         }).then((comRes) => {
             this.props.history.push(`/recipe/${targetRecId}`);
+        }).catch(error => {
+            console.error(error)
         })
-        //this.props.handleCommentAdd(imageurl, comment, targetRecId);
-        //this.props.history.push(`/recipe/${targetRecId}`);
     }
 
     render() {

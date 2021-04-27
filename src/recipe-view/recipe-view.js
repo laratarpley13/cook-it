@@ -13,6 +13,7 @@ class RecipeView extends Component{
       steps: [],
       creator: {},
       users: [],
+      recipetags: [],
   }
   static contextType = Context;
 
@@ -71,18 +72,31 @@ class RecipeView extends Component{
                     return stepsRes.json()
                 }).then((stepsRes) => {
                     this.setState({ steps: stepsRes })
-                    fetch(`${API_BASE_URL}/comments/${targetRecId}`, {
+                    fetch(`${API_BASE_URL}/recipetags`, {
                         method: 'GET',
                         headers: {
                             'authorization': `bearer ${tokenService.getAuthToken()}`
                         }
-                    }).then((comRes) => {
-                        if(!comRes.ok) {
-                            return comRes.json().then(e => Promise.reject(e))
+                    }).then(recTagRes => {
+                        if(!recTagRes.ok) {
+                            return recTagRes.json().then(e => Promise.reject(e))
                         }
-                        return comRes.json()
-                    }).then((comRes) => {
-                        this.setState({ comments: comRes })
+                        return recTagRes.json()
+                    }).then(recTagRes => {
+                        this.setState({ recipetags: recTagRes })
+                        fetch(`${API_BASE_URL}/comments/${targetRecId}`, {
+                            method: 'GET',
+                            headers: {
+                                'authorization': `bearer ${tokenService.getAuthToken()}`
+                            }
+                        }).then((comRes) => {
+                            if(!comRes.ok) {
+                                return comRes.json().then(e => Promise.reject(e))
+                            }
+                            return comRes.json()
+                        }).then((comRes) => {
+                            this.setState({ comments: comRes })
+                        })
                     })
                 })
             })
@@ -91,7 +105,7 @@ class RecipeView extends Component{
   }
 
   render() {
-    const { user, categories, tags, recipeTags } = this.context;
+    const { user, categories, tags } = this.context;
 
     return (
         <>
@@ -125,7 +139,7 @@ class RecipeView extends Component{
                         {categories.filter(category => category.id === this.state.recipe.categoryid).map(filteredCat => 
                             <span key={filteredCat.id} className="tag category">{filteredCat.title}</span>    
                         )}
-                        {recipeTags.filter(r => r.recipeid === this.state.recipe.id).map(r => r.tagid).map(tagid => 
+                        {this.state.recipetags.filter(r => r.recipeid === this.state.recipe.id).map(r => r.tagid).map(tagid => 
                             <span key={tagid} className="tag">{tags.find(t => t.id === tagid).title}</span>
                         )}
                     </div>

@@ -13,6 +13,7 @@ class Explore extends Component{
         selectDietValues: [],
         selectedRecipes: [],
         tagDict: {},
+        recipetags: []
     }
     static contextType = Context;
 
@@ -44,10 +45,10 @@ class Explore extends Component{
 
     handleFilter = (e) => {
         e.preventDefault();
-        const { categories, tags, recipeTags } = this.context
+        const { categories, tags } = this.context
 
         let recWithTags = this.state.recipes.map(rec => {
-            rec.tags = recipeTags.filter(rt => rt.recipeid === rec.id).map(rt => rt.tagid);
+            rec.tags = this.state.recipetags.filter(rt => rt.recipeid === rec.id).map(rt => rt.tagid);
             return rec;
         });
         
@@ -138,12 +139,25 @@ class Explore extends Component{
                 return recRes.json()
             }).then((recRes) => {
                 this.setState({ recipes: recRes, selectedRecipes: recRes })
+                fetch(`${API_BASE_URL}/recipetags`, {
+                    method: 'GET',
+                    headers: {
+                        'authorization': `bearer ${tokenService.getAuthToken()}`
+                    }
+                }).then(recTagRes => {
+                    if(!recTagRes.ok) {
+                        return recTagRes.json().then(e => Promise.reject(e))
+                    }
+                    return recTagRes.json()
+                }).then(recTagRes => {
+                    this.setState({ recipetags: recTagRes })
+                })
             })
         }).catch(error => console.error(error))
     }
 
     render() {
-        const { user, categories, tags, recipeTags } = this.context;
+        const { user, categories, tags } = this.context;
 
         return (
             <>
@@ -154,7 +168,7 @@ class Explore extends Component{
                     <button onClick={() => this.logout()}>Log Out</button>
                 </header>
                 <section className="filter-nav">
-                    <form onSubmit={(e) => this.handleFilter(e, categories, tags, recipeTags)}>
+                    <form onSubmit={(e) => this.handleFilter(e, categories, tags)}>
                         <label htmlFor="category">Category:</label>
                         <select name="category" id="category" value={this.state.selectCatValue} onChange={this.handleCatChange}>
                             <option value="all">all</option>
@@ -191,7 +205,7 @@ class Explore extends Component{
                                     {categories.filter(category => category.id === recipe.categoryid).map(filteredCat => 
                                         <span key={filteredCat.id} className="tag category">{filteredCat.title}</span>    
                                     )}
-                                    {recipeTags.filter(r => r.recipeid === recipe.id).map(r => r.tagid).map(tagid => 
+                                    {this.state.recipetags.filter(r => r.recipeid === recipe.id).map(r => r.tagid).map(tagid => 
                                         <span key={tagid} className="tag">{tags.find(t => t.id === tagid).title}</span>
                                     )}
                                 </div>
