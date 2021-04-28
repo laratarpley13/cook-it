@@ -9,7 +9,8 @@ function Landing(props) {
             <button onClick={() => props.history.push('/sign-up')}>Sign Up</button>
             <button onClick={() => props.history.push('/sign-in')}>Sign In</button>
         </header>
-        <div>
+        <section className="landing-page">
+            <div className="background-img" style={{backgroundImage: `url("https://images.pexels.com/photos/6248852/pexels-photo-6248852.jpeg?auto=compress&cs=tinysrgb&h=650&w=940")`}}></div>
             <div className="about">
                 <h2>About Us</h2>
                 <p>
@@ -23,7 +24,7 @@ function Landing(props) {
                 <p>Try new recipes and leave a picture of your recipe re-make for others to see and your thoughts on the recipe!</p>
                 <p>Have fun creating and making new dishes!</p>
             </div>   
-        </div>
+        </section>
     </>
   );
 }

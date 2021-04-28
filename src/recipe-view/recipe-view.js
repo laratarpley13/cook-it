@@ -122,7 +122,7 @@ class RecipeView extends Component{
                     {this.state.users.filter(user => this.state.recipe.userid === user.id).map(user => 
                         <h4 key={user.id} className="creator-link" onClick={() => this.props.history.push(`/user/${user.id}`)}>Created by: {user.nickname}</h4>      
                     )}
-                    <p>{this.state.recipe.description}</p>
+                    <p className="rec-description">{this.state.recipe.description}</p>
                     <h4>Ingredients</h4>
                     <ul className="ingredients">
                         {this.state.ingredients.map(ingredient => 
@@ -144,7 +144,7 @@ class RecipeView extends Component{
                         )}
                     </div>
                 </div>
-                <h3>Comments</h3>
+                <h3 className="add-comment-title">Comments</h3>
                 <button className="add-comment-button" onClick={() => this.props.history.push(`/add-comment/${this.state.recipe.id}`)}>Add Comment</button>
                 <section className="comments">
                     {this.state.comments.length === 0 ?

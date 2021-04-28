@@ -43,19 +43,19 @@ class SignUp extends Component {
                         <h2>Sign Up</h2>
                         <form onSubmit={this.handleSubmit}>
                             {this.state.error && <p className="error">{this.state.error}</p>}
-                            <label for="email">Email:</label>
+                            <label htmlFor="email">Email:</label>
                             <input type="email" id="email" name="email" />
                             <br />
-                            <label for="nickname">Nickname:</label>
+                            <label htmlFor="nickname">Nickname:</label>
                             <input type="text" id="nickname" name="nickname" />
                             <br />
-                            <label for="password">Password:</label>
+                            <label htmlFor="password">Password:</label>
                             <input type="password" id="password" name="password" />
                             <br />
-                            <label for="repeat-password">Repeat Password:</label>
+                            <label htmlFor="repeat-password">Repeat Password:</label>
                             <input type="password" id="repeat-password" name="repeatPassword" />
                             <br />
-                            <button type="submit">Submit</button>
+                            <button className="signup-submit" type="submit">Submit</button>
                         </form>
                     </div>   
                 </div>

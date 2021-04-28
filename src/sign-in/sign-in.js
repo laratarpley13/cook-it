@@ -89,7 +89,7 @@ class SignIn extends Component {
                             </label>
                             <input type="password" id="password" name="password" />
                             <br />
-                            <button type="submit">Submit</button>
+                            <button className="signin-submit" type="submit">Submit</button>
                         </form>
                     </div>   
                 </div>

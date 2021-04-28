@@ -128,7 +128,7 @@ class UserView extends Component{
                 <button onClick={() => this.logout()}>Log Out</button>
             </header>
             <div>
-                <h2>{this.state.pageUser.nickname}'s Recipes</h2>
+                <h2 className="user-title">{this.state.pageUser.nickname}'s Recipes</h2>
                 <section className="user-recipes">
                     {this.state.recipes.length === 0 ?
                     <p>{this.state.pageUser.nickname} has no recipes yet</p>
@@ -153,7 +153,7 @@ class UserView extends Component{
                         )
                     }
                 </section>
-                <h2>{this.state.pageUser.nickname}'s Recipe Attempts</h2>
+                <h2 className="user-title">{this.state.pageUser.nickname}'s Recipe Attempts</h2>
                 <section className="user-comments">
                     {this.state.comments.length === 0 ?
                     <p>{this.state.pageUser.nickname} has no recipe attempts yet</p> 

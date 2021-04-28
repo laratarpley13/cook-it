@@ -169,25 +169,27 @@ class Explore extends Component{
                 </header>
                 <section className="filter-nav">
                     <form onSubmit={(e) => this.handleFilter(e, categories, tags)}>
-                        <label htmlFor="category">Category:</label>
-                        <select name="category" id="category" value={this.state.selectCatValue} onChange={this.handleCatChange}>
-                            <option value="all">all</option>
-                            <option value="breakfast">breakfast</option>
-                            <option value="entree">entree</option>
-                            <option value="dessert">dessert</option>
-                            <option value="drink">drink</option>
-                            <option value="side">side</option>
-                            <option value="snack">snack</option>
-                        </select>
+                        <div className="category-form">
+                            <label htmlFor="category">Category:</label>
+                            <select name="category" id="category" value={this.state.selectCatValue} onChange={this.handleCatChange}>
+                                <option value="all">all</option>
+                                <option value="breakfast">breakfast</option>
+                                <option value="entree">entree</option>
+                                <option value="dessert">dessert</option>
+                                <option value="drink">drink</option>
+                                <option value="side">side</option>
+                                <option value="snack">snack</option>
+                            </select>
+                        </div>
                         <div className="dietary">
                             {tags.map(tag => 
                                 <label key={tag.id}><input type="checkbox" id={tag.title} name={tag.title} value={tag.title} onChange={this.handleChange} />{tag.title}</label>    
                             )}
                         </div>
-                        <button type="submit">Enter</button>
+                        <button className="explore-submit" type="submit">Enter</button>
                     </form>
                 </section>
-                <div>
+                <div className="explore">
                     <h2>Explore</h2>
                     <section className="recipes">
                         {this.state.selectedRecipes.map(recipe => 

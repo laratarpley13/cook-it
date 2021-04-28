@@ -9,33 +9,54 @@
     font-family: Verdana;
 }
 
-header, main {
-    padding: 20px;
-}
-
-header {
-    background-color: darkgray;
+.landing-nav {
+    background-color: #6aa355;
     color: white;
+    padding: 15px;
 }
 
-header h1 {
-    font-size: 25px;
+.landing-nav h1 {
+    font-size: 30px;
 }
 
-a {
-    color: inherit;
+.landing-nav button {
+    margin: 10px;
+    padding: 10px;
+    border: 0px;
+    border-radius: 5px;
+    background-color: lightgray;
 }
+
+.landing-page {
+    margin: 0px;
+    padding: 0px;
+}
+
+.landing-page .background-img {
+    height: 300px;
+    padding: 0px;
+    margin: 0px;
+    background-size: cover;
+    background-position: center center;
+    background-color: darkolivegreen;
+}
+
 .about {
     margin: 20px;
+    padding-top: 20px;
 }
 
 .about h2{
-    font-size: 17px;
+    font-size: 20px;
     padding: 10px;
+    color: #6aa355;
 }
 
 .about p {
     padding: 10px;
+    line-height: 20px;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 .how-it-works {
@@ -43,10 +64,14 @@ a {
 }
 
 .how-it-works h3 {
-    font-size: 15px;
+    font-size: 20px;
     padding: 10px;
+    color: #6aa355;
 }
 
 .how-it-works p {
     padding: 5px;
+    line-height: 20px;
+    margin-left: 10%;
+    margin-right: 10%;
 }

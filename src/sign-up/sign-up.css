@@ -9,17 +9,13 @@
     font-family: Verdana;
 }
 
-header, main {
-    padding: 20px;
-}
-
 header {
-    background-color: darkgray;
+    background-color: #6aa355;
     color: white;
 }
 
 header h1 {
-    font-size: 25px;
+    font-size: 30px;
 }
 
 .error {
@@ -31,15 +27,28 @@ header h1 {
 }
 
 .sign-up h2 {
-    padding: 20px;
-    font-size: 18px;
+    padding: 25px;
+    font-size: 22px;
+    color: #6aa355;
 }
 
 .sign-up form * {
-    margin: 5px;
+    margin: 10px;
+    padding: 8px;
 }
 
 .sign-up form {
-    border: solid darkgray 1px;
+    border-color: black;
+    border-radius: 2px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.35);
     padding: 20px;
+}
+
+.signup-submit {
+    padding: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: 0px;
+    border-radius: 5px;
+    background-color: lightgray;
 }

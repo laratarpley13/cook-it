@@ -9,17 +9,12 @@
     font-family: Verdana;
 }
 
-header, main {
-    padding: 20px;
-}
-
 header {
-    background-color: darkgray;
+    background-color: #6aa355;
     color: white;
 }
 
 header h1 {
-    font-size: 25px;
     cursor: pointer;
 }
 
@@ -27,25 +22,27 @@ header h1:hover {
     color: darkolivegreen;
 }
 
-a {
-    color: inherit;
-}
-
 .full-recipe {
-    border: 1px solid darkgray;
+    border: 1px solid #cccccc;
     margin: 20px;
+    box-shadow: 0px 0px 10px rgba(85, 83, 83, 0.35);
 }
 
 .full-recipe .image {
-    height: 300px;
+    height: 350px;
     background-size: cover;
     background-position: center center;
     background-color: darkolivegreen;
 }
 
 .full-recipe h3 {
-    font-size: 15px;
+    font-size: 20px;
     padding: 15px;
+    color: #6aa355;
+}
+
+.full-recipe .rec-description {
+    font-size: 17px;
 }
 
 .full-recipe p {
@@ -60,16 +57,28 @@ a {
 }
 
 .full-recipe h4 {
-    font-size: 15px;
-    padding: 10px;
+    font-size: 18px;
+    padding-top: 15px;
+    padding-bottom: 10px;
+    color: #6aa355;
 }
 
 .full-recipe .ingredients { 
-    color: darkgray;
+    color: rgb(63, 62, 62);
+}
+
+.full-recipe .ingredients * {
+    padding: 5px;
 }
 
 .full-recipe .directions {
-    color: darkgray
+    color: rgb(63, 62, 62);
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.full-recipe .directions * {
+    padding: 5px;
 }
 
 .tag-container {
@@ -82,18 +91,26 @@ a {
     padding: 3px 7px 3px 7px;
     margin: 0 10px 10px 10px;
     border-radius: 5px;
+    display: block;
 }
 
 .tag-container .category {
     background-color: darkolivegreen;
 }
 
-h3 {
-    font-size: 16px;
+.add-comment-title {
+    font-size: 20px;
+    padding-top: 20px;
 }
 
 .add-comment-button {
-    margin-top: 10px;
+    margin-top: 15px;
+    border: 0px;
+    background-color: #6aa355;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
 }
 
 .comments {
@@ -111,9 +128,10 @@ h3 {
 }
 
 .comment {
-    border: 1px solid darkgray;
+    border: 1px solid #cccccc;
     flex-basis: 30%;
     margin: 10px;
+    box-shadow: 0px 0px 10px rgba(85, 83, 83, 0.35);
 }
 
 .comment .response-img {

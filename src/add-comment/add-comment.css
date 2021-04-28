@@ -9,12 +9,8 @@
     font-family: Verdana;
 }
 
-header, main {
-    padding: 20px;
-}
-
 header {
-    background-color: darkgray;
+    background-color: #6aa355;
     color: white;
 }
 
@@ -28,16 +24,33 @@ header h1:hover {
 }
 
 h2 {
-    font-size: 17px;
-    padding: 20px;  
+    font-size: 20px;
+    padding: 20px;
+    color: #6aa355;  
 }
 
 .add-comment form {
-    border: 1px darkgray solid;
-    margin: 10px 20px 20px 20px;
+    border-color: black;
+    border-radius: 2px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.35);
+    border: 1px;
+    margin: 10px 30px 20px 30px;
+    padding: 20px;
 }
 
 .add-comment form * {
     margin: 10px;
     padding: 2px;
+}
+
+.add-comment input {
+    padding: 5px;
+}
+
+.add-comment .comment-submit {
+    border-radius: 5px;
+    border: 0px;
+    background-color: #6aa355;
+    color: white;
+    padding: 5px;
 }

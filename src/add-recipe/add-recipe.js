@@ -217,17 +217,19 @@ handleChange = (e) => {
                 <h2>Add Recipe</h2>
                 <section className="add-recipe">
                     <form onSubmit={this.handleSubmit}>
-                        <p>Note: Please upload your image to<a href="https://imgur.com/" target="_blank" rel="noreferrer noopener">imgur</a>and use the image url for you recipe photo.</p>
-                        <label htmlFor="imageurl">Image Url:</label>
-                        <input name="imageurl" id="imageurl" type="text" value={this.state.imageurl} onChange={this.handleChange} required />
-                        <br />
-                        <label htmlFor="name">Recipe Name:</label>
-                        <input name="name" id="name" type="text" value={this.state.name} onChange={this.handleChange} required/>
-                        <br />
-                        <label htmlFor="description">Description:</label>
-                        <input name="description" id="description" type="text" value={this.state.description} onChange={this.handleChange} required/>
-                        <br />
-                        <div className="ingredients">
+                        <div className="base-info">
+                            <p>Note: Please upload your image to<a href="https://imgur.com/" target="_blank" rel="noreferrer noopener">imgur</a>and use the image url for you recipe photo.</p>
+                            <label htmlFor="imageurl">Image Url:</label>
+                            <input name="imageurl" id="imageurl" type="text" value={this.state.imageurl} onChange={this.handleChange} required />
+                            <br />
+                            <label htmlFor="name">Recipe Name:</label>
+                            <input name="name" id="name" type="text" value={this.state.name} onChange={this.handleChange} required/>
+                            <br />
+                            <label htmlFor="description">Description:</label>
+                            <input name="description" id="description" type="text" value={this.state.description} onChange={this.handleChange} required/>
+                            <br />
+                        </div>
+                        <div className="add-ingredients">
                             <h3>Ingredients:</h3>
                             {this.state.ingredients.map((ingredient, index) => {
                                 let titleId = `title-${index}`, amountId = `amount=${index}` 
@@ -237,44 +239,48 @@ handleChange = (e) => {
                                         <input name={titleId} id={titleId} data-id={index} type="text" className="title" onChange={this.handleText} value={ingredient.title}  required />
                                         <label htmlFor={amountId}>Amount:</label>
                                         <input name={amountId} id={amountId} data-id={index} type="text" className="amount" onChange={this.handleText} value={ingredient.amount} required />
-                                        <button onClick={this.handleDelete(index)}>X</button>
+                                        <button className="delete-ing" onClick={this.handleDelete(index)}>X</button>
                                     </div>
                                 )
                             })}
-                            <button onClick={this.addIngredient}>Add Ingredient</button>
+                            <button className="add-ing-button" onClick={this.addIngredient}>Add Ingredient</button>
                         </div>
-                        <div className="directions">
-                            <h2>Directions:</h2>
+                        <div className="add-directions">
+                            <h3>Directions:</h3>
                             {this.state.directions.map((direction, index) => {
                                 let dirId = `dir-${index}` 
                                 return (
                                     <div key={index}>
-                                        <label htmlFor={dirId}>Step {index + 1}</label>
+                                        <label htmlFor={dirId}>Step {index + 1}:</label>
                                         <input name={dirId} id={dirId} data-id={index} className="direction" type="text" onChange={this.handleDirText} value={direction} required />
-                                        <button onClick={this.handleDirDelete(index)}>X</button>
+                                        <button className="delete-dir" onClick={this.handleDirDelete(index)}>X</button>
                                     </div>
                                 )
                             })}
-                            <button onClick={this.addDirection}>Add Direction</button>
+                            <button className="add-dir-button" onClick={this.addDirection}>Add Direction</button>
                         </div>
                         <br />
-                        <label htmlFor="category">Category:</label>
-                        <select name="category" id="category" onChange={this.handleCatChange} required>
-                            <option value="breakfast">breakfast</option>
-                            <option value="entree">entree</option>
-                            <option value="dessert">dessert</option>
-                            <option value="snack">snack</option>
-                            <option value="side">side</option>
-                            <option value="drink">drink</option>
-                        </select>
+                        <div className="select-cat">
+                            <h3>Select Category</h3>
+                            <label htmlFor="category">Category:</label>
+                            <select name="category" id="category" onChange={this.handleCatChange} required>
+                                <option value="breakfast">breakfast</option>
+                                <option value="entree">entree</option>
+                                <option value="dessert">dessert</option>
+                                <option value="snack">snack</option>
+                                <option value="side">side</option>
+                                <option value="drink">drink</option>
+                            </select>
+                        </div>
                         <br />
-                        <div className="dietary">
+                        <div className="select-dietary">
+                            <h3>Select Dietary Tags</h3>
                             {tags.map(tag =>
                                 <label key={tag.id}><input type="checkbox" id={tag.title} name={tag.title} value={tag.title} onChange={this.handleTagChange} />{tag.title}</label>
                             )}
                         </div>
                         <br />
-                        <button type="submit">Submit</button>
+                        <button className="add-recipe-submit" type="submit">Submit</button>
                     </form>
                 </section>
             </div>

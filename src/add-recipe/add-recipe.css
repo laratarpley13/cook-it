@@ -9,12 +9,8 @@
     font-family: Verdana;
 }
 
-header, main {
-    padding: 20px;
-}
-
 header {
-    background-color: darkgray;
+    background-color: #6aa355;
     color: white;
 }
 
@@ -27,21 +23,131 @@ header h1:hover {
     color: darkolivegreen;
 }
 
-a {
-    color: inherit;
-}
-
 h2 {
     font-size: 17px;
     padding: 20px;  
 }
 
 .add-recipe form {
-    border: 1px darkgray solid;
+    border-radius: 2px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.35);
+    padding: 20px;
     margin: 10px 20px 20px 20px;
 }
 
-.add-recipe form * {
+.add-recipe .base-info {
+    margin: 20px;
+}
+
+.add-recipe .base-info * {
     margin: 10px;
+}
+
+.add-recipe .base-info input {
+    padding: 5px;
+}
+
+.add-recipe .add-ingredients {
+    margin-top: 20px;
+}
+
+.add-recipe .add-ingredients h3 {
+    padding-bottom: 10px;
+    padding-top: 15px;
+    font-size: 17px;
+    color: #6aa355;
+}
+
+.add-recipe .add-ingredients input{
+    padding: 3px;
+    margin: 3px;
+}
+
+.add-recipe .add-ingredients .delete-ing {
+    border: 0;
+    background-color: darkred;
+    color: white;
+    margin-left: 2px;
     padding: 2px;
+    border-radius: 3px;
+}
+
+.add-recipe .add-ingredients .add-ing-button {
+    border: 0;
+    background-color: darkgray;
+    color: white;
+    padding: 6px;
+    border-radius: 3px;
+    margin-top: 15px;
+}
+
+.add-recipe .add-directions {
+    margin-top: 20px;
+}
+
+.add-recipe .add-directions h3 {
+    padding-bottom: 10px;
+    padding-top: 15px;
+    font-size: 17px;
+    color: #6aa355;
+}
+
+.add-recipe .add-directions input{
+    padding: 3px;
+    margin: 3px;
+}
+
+.add-recipe .add-directions .delete-dir {
+    border: 0;
+    background-color: darkred;
+    color: white;
+    margin-left: 2px;
+    padding: 2px;
+    border-radius: 3px;
+}
+
+.add-recipe .add-directions .add-dir-button {
+    border: 0;
+    background-color: darkgray;
+    color: white;
+    padding: 6px;
+    border-radius: 3px;
+    margin-top: 15px;
+}
+
+.add-recipe .select-cat {
+    margin: 20px;
+}
+
+.add-recipe .select-cat h3 {
+    font-size: 17px;
+    color: #6aa355;
+}
+
+.add-recipe .select-cat * {
+    padding: 10px;
+}
+
+.add-recipe .select-dietary {
+    margin: 10px;
+}
+
+.add-recipe .select-dietary h3 {
+    font-size: 17px;
+    color: #6aa355;
+    padding-bottom: 15px;
+}
+
+.add-recipe .select-dietary label {
+    margin: 10px;
+    padding: 20px;
+}
+
+.add-recipe .add-recipe-submit {
+    border: 0px;
+    border-radius: 5px;
+    color: white;
+    background-color: #6aa355;
+    padding: 8px;
+    margin: 20px;
 }

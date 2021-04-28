@@ -60,7 +60,7 @@ class AddComment extends Component {
                     <button onClick={() => this.props.history.push('/add-recipe')}>Add Recipe</button>
                     <button onClick={() => this.logout()}>Log Out</button>
                 </header>
-                <div>
+                <section className="body">
                     <h2>Add Comment</h2>
                     <section className="add-comment">
                         <form onSubmit={this.handleSubmit}>
@@ -71,10 +71,10 @@ class AddComment extends Component {
                             <label htmlFor="comment">Comment:</label>
                             <input name="comment" id="comment" type="text" value={this.state.comment} onChange={this.handleChange} required />
                             <br />
-                            <button type="submit">Submit</button>
+                            <button className="comment-submit" type="submit">Submit</button>
                         </form>
                     </section>
-                </div>
+                </section>
             </>
         );
     }

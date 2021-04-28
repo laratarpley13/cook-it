@@ -9,17 +9,12 @@
     font-family: Verdana;
 }
 
-header, main {
-    padding: 20px;
-}
-
 header {
-    background-color: darkgray;
+    background-color: #6aa355;
     color: white;
 }
 
 header h1 {
-    font-size: 25px;
     cursor: pointer;
 }
 
@@ -29,20 +24,48 @@ header h1:hover {
 
 .filter-nav {
     background-color: lightgray;
-    padding: 20px;
 }
 
-.filter-nav label {
-    padding: 10px;
+.filter-nav .category-form {
+    background-color: darkolivegreen;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    color: white;
+}
+
+.filter-nav .category-form select {
+    padding: 5px;
+    border-radius: 5px;
 }
 
 .filter-nav .dietary {
     margin: 20px;
+    padding-top: 10px;
+    padding-right: 15px;
+    padding-left: 15px;
 }
 
-h2 {
-    font-size: 17px;
+.filter-nav .dietary label {
+    padding: 15px;
+}
+
+.filter-nav .dietary input {
+    padding: 5px;
+}
+
+.filter-nav .explore-submit {
+    padding: 3px;
+    margin-bottom: 10px;
+    border: 0px;
+    border-radius: 5px;
+    color: white;
+    background-color: #6aa355;
+}
+
+.explore h2 {
+    font-size: 23px;
     padding: 20px;
+    color: #6aa355;
 }
 
 .recipes {
@@ -52,21 +75,22 @@ h2 {
     flex-direction: column;
 }
 
-@media screen and (min-width: 650px) {
+@media screen and (min-width: 750px) {
     .recipes {
         flex-direction: row;
     }
 }
 
 .recipe {
-    border: 1px solid darkgray;
+    border: 1px solid #cccccc;
     flex-basis: 30%;
     margin: 20px;
+    box-shadow: 0px 0px 10px rgba(85, 83, 83, 0.35);
     cursor: pointer;
 }
 
 .recipe .image {
-    height: 200px;
+    height: 250px;
     background-size: cover;
     background-position: center center;
     background-color: darkolivegreen;
@@ -89,15 +113,19 @@ h2 {
 }
 
 .tag-container {
-    margin: 10px 20px 20px 20px;
+    margin: 10px 25px 20px 25px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .tag-container .tag {
     background-color: darkgray;
     color: white;
-    padding: 3px 7px 3px 7px;
-    margin: 0 10px 10px 10px;
+    padding: 3px;
+    margin: 10px;
     border-radius: 5px;
+    flex-basis: 30%;
 }
 
 .tag-container .category {
