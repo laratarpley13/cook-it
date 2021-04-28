@@ -66,7 +66,13 @@ header h1:hover {
 }
 
 .recipe .delete-rec {
-    margin: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: 0;
+    border-radius: 5px;
+    color: white;
+    background-color: darkred;
+    padding: 5px;
 }
 
 .tag-container {
@@ -120,5 +126,11 @@ header h1:hover {
 }
 
 .comment .delete-com {
-    margin: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: 0;
+    border-radius: 5px;
+    color: white;
+    background-color: darkred;
+    padding: 5px;
 }

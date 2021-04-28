@@ -33,6 +33,10 @@ header h1:hover {
     color: white;
 }
 
+.filter-nav .category-form label {
+    margin-right: 5px;
+}
+
 .filter-nav .category-form select {
     padding: 5px;
     border-radius: 5px;
