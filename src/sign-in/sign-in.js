@@ -82,12 +82,12 @@ class SignIn extends Component {
                             <label htmlFor="email">
                             Email:
                             </label>
-                            <input type="email" id="email" name="email" defaultValue="demo6@demo.com" />
+                            <input type="email" id="email" name="email" />
                             <br />
                             <label htmlFor="password">
                             Password:
                             </label>
-                            <input type="password" id="password" name="password" defaultValue="P@ssowrd1234" />
+                            <input type="password" id="password" name="password" />
                             <br />
                             <button type="submit">Submit</button>
                         </form>
