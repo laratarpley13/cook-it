@@ -75,3 +75,20 @@
     margin-left: 10%;
     margin-right: 10%;
 }
+
+.demo-account {
+    margin: 20px;
+}
+
+.demo-account h3 {
+    font-size: 20px;
+    padding: 10px;
+    color: #6aa355;
+}
+
+.demo-account p {
+    padding: 5px;
+    line-height: 20px;
+    margin-left: 10%;
+    margin-right: 10%;
+}

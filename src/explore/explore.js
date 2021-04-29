@@ -191,6 +191,7 @@ class Explore extends Component{
                 </section>
                 <div className="explore">
                     <h2>Explore</h2>
+                    <p>How to use: to view a recipe click on the recipe, to view a user's profile click on their name.</p>
                     <section className="recipes">
                         {this.state.selectedRecipes.map(recipe => 
                             <div key={recipe.id} className="recipe" onClick={() => this.props.history.push(`/recipe/${recipe.id}`)}>

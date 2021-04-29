@@ -56,6 +56,41 @@ class UserView extends Component{
       })
   }
 
+  getUserInfo = () => {
+      //get user recipes
+      fetch(`${API_BASE_URL}/recipes/byuser/${this.context.user.id}`, {
+          method: 'GET',
+          headers: {
+              'authorization': `bearer ${tokenService.getAuthToken()}`
+          }
+      }).then(recRes => {
+          if(!recRes.ok) {
+              return recRes.json().then(e => Promise.reject(e))
+          }
+          return recRes.json()
+      }).then(recRes => {
+          this.setState({recipes: recRes})
+      })
+      
+      //get user comments
+      fetch(`${API_BASE_URL}/comments/byuser/${this.context.user.id}`, {
+          method: 'GET',
+          headers: {
+              'authorization': `bearer ${tokenService.getAuthToken()}`
+          }
+      }).then(comRes => {
+          if(!comRes.ok) {
+              return comRes.json().then(e => Promise.reject(e))
+          }
+          return comRes.json()
+      }).then(comRes => {
+          this.setState({ comments: comRes })
+      })
+
+      //change pageUser in state
+      this.setState({ pageUser: this.context.user })
+  }
+
   componentDidMount() {
       const targetUserId = parseInt(this.props.match.params.userId);
       fetch(`${API_BASE_URL}/users/${targetUserId}`, {
@@ -123,7 +158,7 @@ class UserView extends Component{
         <>
             <header className="landing-nav">
                 <h1 onClick={() => this.props.history.push('/explore')}>CookIt</h1>
-                <button onClick={() => this.props.history.push(`/user/${user.id}`)}>My Recipes</button>
+                <button onClick={this.getUserInfo}>My Recipes</button>
                 <button onClick={() => this.props.history.push('/add-recipe')}>Add Recipe</button>
                 <button onClick={() => this.logout()}>Log Out</button>
             </header>

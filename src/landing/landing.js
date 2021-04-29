@@ -23,7 +23,12 @@ function Landing(props) {
                 <p>Browse Recipes in the "Explore" page, and sort by catogory or dietary tags</p>
                 <p>Try new recipes and leave a picture of your recipe re-make for others to see and your thoughts on the recipe!</p>
                 <p>Have fun creating and making new dishes!</p>
-            </div>   
+            </div>  
+            <div className="demo-account">
+                <h3>Test a demo account:</h3>
+                <p>Email: demo@demo.com</p>
+                <p>Password: P@ssword1234</p>
+            </div> 
         </section>
     </>
   );
