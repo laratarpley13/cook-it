@@ -69,7 +69,7 @@ class UserView extends Component{
           }
           return userRes.json()
       }).then((userRes) => {
-          this.setState({ pageUser: userRes }, console.log(userRes))
+          this.setState({ pageUser: userRes })
           fetch(`${API_BASE_URL}/recipes/byuser/${targetUserId}`, {
               method: 'GET',
               headers: {
@@ -81,7 +81,7 @@ class UserView extends Component{
               }
               return recRes.json()
           }).then((recRes) => {
-              this.setState({ recipes: recRes}, console.log(recRes))
+              this.setState({ recipes: recRes})
           })
       }).catch(error => console.error(error))
 

@@ -113,7 +113,7 @@ class Explore extends Component{
             tagDict[t.id] = t.title;
         })
 
-        this.setState({ tagDict: tagDict }, () => console.log(this.state.tagDict))
+        this.setState({ tagDict: tagDict })
 
         fetch(`${API_BASE_URL}/users/all`, {
             method: 'GET',

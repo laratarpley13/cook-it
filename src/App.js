@@ -23,19 +23,19 @@ class App extends Component {
   handleSetCat = (categories) => {
     this.setState({
       categories: categories
-    }, console.log(this.state.categories))
+    })
   }
 
   handleSetTags = (tags) => {
     this.setState({
       tags: tags
-    }, console.log(this.state.tags))
+    })
   }
 
   handleSetUser = (user) => {
     this.setState({
       user: user
-    }, console.log(this.state.user))
+    })
   }
 
   componentDidMount() {
@@ -83,7 +83,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state);
     const value = {
       user: this.state.user,
       categories: this.state.categories,
