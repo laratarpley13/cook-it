@@ -1,70 +1,55 @@
-# Getting Started with Create React App
+# CookIt
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Link to live app: [https://cook-it-rho.vercel.app](https://cook-it-rho.vercel.app)
 
-## Available Scripts
+![Alt text](https://github.com/laratarpley13/cook-it/blob/master/screenshots/explore-view.png)
+![Alt text](https://github.com/laratarpley13/cook-it/blob/master/screenshots/recipe-view.png)
+![Alt text](https://github.com/laratarpley13/cook-it/blob/master/screenshots/user-view.png)
 
-In the project directory, you can run:
+## Motivation
 
-### `npm start`
+Cooking is one of my biggest hobbies and in my free time you will often find me in the kitchen creating new recipes and experimenting in the kitchen. I've always wanted an easy way to share recipes I've created and recieve feedback in return without the pressure of maintaining and delivering recipe content through a blog of sorts. I created this app with the vision of creating a platform for other cooks to share their recipe creations and recieve constructive feedback in the form of pictures of the recipes attempts in turn, since food can be a very visual experience as well.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## How it works 
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Users create accounts and post their own recipe creations for others to view. Users can browse through the explore page looking for different recipes to try, with the ability to sort by category and/or dietary needs. Once a user attempts someone else's recipe, in order to leave a comment they need to post a picture of their attempt in return, so we really get an idea of how the recipe turned out.
 
-### `npm test`
+### Technologies Used
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Client: React, ReactRouter, HTML, CSS
 
-### `npm run build`
+API: Node.js, Express, PostgreSQL
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### API Used
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Link to API repo: [https://github.com/laratarpley13/cook-it-api.git](https://github.com/laratarpley13/cook-it-api.git)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+(NOTE: all routes except for account creation and initial sign-in require authorization)
 
-### `npm run eject`
+/auth route: to allow user to sign-in to their account
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+/users route: post - to create a new user, get - to get specific user and their credentials, get all users - to get all users
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+/categories: get all categories, post category, delete category
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+/tags: get all tags, post new tag, delete tag
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+/recipes route: get all recipes, get recipe by user, get recipe by category, get individual recipe, delete individual recipe, post recipe
 
-## Learn More
+/ingredients: get all ingredients, get ingredients by recipe, post new ingredient, delete ingredient by id
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+/steps: get all steps, get steps by recipe, post new step, delete step by id
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+/comments: get all comments, get comments by recipe, get comments by recipe, delete comment
 
-### Code Splitting
+/recipetags: get all recipe-tag pairings, get recipe-tag pairings by recipe
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Features to include in future versions
 
-### Analyzing the Bundle Size
+Rating features to up-vote or down-vote recipes/comments
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Sort recipes by date-added, likes, etc.
 
-### Making a Progressive Web App
+Ability to edit recipe ingredients/steps by drag and drop option
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Confirm delete or cancel delete option when deleting recipes/comments
