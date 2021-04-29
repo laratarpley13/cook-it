@@ -77,20 +77,22 @@ class SignIn extends Component {
                 <div>
                     <div className="sign-in">
                         <h2>Sign In</h2>
-                        <form onSubmit={this.handleSignIn}>
-                            {this.state.error && <p className="error">{this.state.error}</p>}
-                            <label htmlFor="email">
-                            Email:
-                            </label>
-                            <input type="email" id="email" name="email" />
-                            <br />
-                            <label htmlFor="password">
-                            Password:
-                            </label>
-                            <input type="password" id="password" name="password" />
-                            <br />
-                            <button className="signin-submit" type="submit">Submit</button>
-                        </form>
+                        <div className="signin-container">
+                            <form onSubmit={this.handleSignIn}>
+                                {this.state.error && <p className="error">{this.state.error}</p>}
+                                <label htmlFor="email">
+                                Email:
+                                </label>
+                                <input type="email" id="email" name="email" />
+                                <br />
+                                <label htmlFor="password">
+                                Password:
+                                </label>
+                                <input type="password" id="password" name="password" />
+                                <br />
+                                <button className="signin-submit" type="submit">Submit</button>
+                            </form>
+                        </div>
                     </div>   
                 </div>
             </>

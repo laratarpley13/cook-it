@@ -118,7 +118,7 @@ class UserView extends Component{
           }).then((recRes) => {
               this.setState({ recipes: recRes})
           })
-      }).catch(error => console.error(error))
+      }).catch(error => console.log(error))
 
       //get comments
       fetch(`${API_BASE_URL}/comments/byuser/${targetUserId}`, {
@@ -133,7 +133,7 @@ class UserView extends Component{
           return comRes.json()
       }).then((comRes) => {
           this.setState({ comments: comRes })
-      }).catch(error => console.error(error))
+      }).catch(error => console.log(error))
 
       //get recipeTags
       fetch(`${API_BASE_URL}/recipetags`, {
@@ -148,7 +148,7 @@ class UserView extends Component{
           return recTagRes.json()
       }).then(recTagRes => {
           this.setState({ recipetags: recTagRes })
-      })
+      }).catch(error => console.log(error))
 
   }
 

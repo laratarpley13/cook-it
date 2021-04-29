@@ -41,22 +41,24 @@ class SignUp extends Component {
                 <div>
                     <div className="sign-up">
                         <h2>Sign Up</h2>
-                        <form onSubmit={this.handleSubmit}>
-                            {this.state.error && <p className="error">{this.state.error}</p>}
-                            <label htmlFor="email">Email:</label>
-                            <input type="email" id="email" name="email" />
-                            <br />
-                            <label htmlFor="nickname">Nickname:</label>
-                            <input type="text" id="nickname" name="nickname" />
-                            <br />
-                            <label htmlFor="password">Password:</label>
-                            <input type="password" id="password" name="password" />
-                            <br />
-                            <label htmlFor="repeat-password">Repeat Password:</label>
-                            <input type="password" id="repeat-password" name="repeatPassword" />
-                            <br />
-                            <button className="signup-submit" type="submit">Submit</button>
-                        </form>
+                        <div className="signup-container">
+                            <form onSubmit={this.handleSubmit}>
+                                {this.state.error && <p className="error">{this.state.error}</p>}
+                                <label htmlFor="email">Email:</label>
+                                <input type="email" id="email" name="email" />
+                                <br />
+                                <label htmlFor="nickname">Nickname:</label>
+                                <input type="text" id="nickname" name="nickname" />
+                                <br />
+                                <label htmlFor="password">Password:</label>
+                                <input type="password" id="password" name="password" />
+                                <br />
+                                <label htmlFor="repeat-password">Repeat Password:</label>
+                                <input type="password" id="repeat-password" name="repeatPassword" />
+                                <br />
+                                <button className="signup-submit" type="submit">Submit</button>
+                            </form>
+                        </div>
                     </div>   
                 </div>
             </>
