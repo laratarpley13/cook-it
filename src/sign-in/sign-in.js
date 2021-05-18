@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactLoading from 'react-loading';
 import { API_BASE_URL } from '../config';
 import AuthAPIService from '../services/auth-api-service';
 import tokenService from '../services/token-service';
@@ -8,18 +9,25 @@ import './sign-in.css'
 class SignIn extends Component {
     state = {
         error: null,
+        isLoading: false,
     }
 
     handleSignIn = (e) => {
         e.preventDefault();
         const { email, password } = e.target;
         this.setState({ error: null })
+        if(email.value && password.value) {
+            this.setState({
+                isLoading: true
+            })
+        }
         const user = {
             email: email.value,
             password: password.value,
         }
         AuthAPIService.signinUser(user).then(signinResponse => {
             TokenService.saveAuthToken(signinResponse.authToken)
+            this.setState({isLoading: false})
             fetch(`${API_BASE_URL}/categories`, {
                 method: 'GET',
                 headers: {
@@ -61,12 +69,19 @@ class SignIn extends Component {
             })
             this.props.history.push('/explore')
         }).catch((res) => {
-            console.log(res.error)
+            this.setState({isLoading: false})
             this.setState({error: res.message});
         })
     }
 
     render() {
+        if(this.state.isLoading) {
+            return (
+                <div className="loader">
+                    <ReactLoading type={"spin"} color={"#6aa355"} />
+                </div>
+            )
+        }
         return (
             <>
                 <header className="landing-nav">

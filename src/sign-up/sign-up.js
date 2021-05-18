@@ -1,36 +1,49 @@
 import React, { Component } from 'react';
+import ReactLoading from 'react-loading';
 import AuthAPIService from '../services/auth-api-service';
 import './sign-up.css';
 
 class SignUp extends Component {
     state = {
         error: null,
+        isLoading: false
     };
 
     handleSubmit = e => {
         e.preventDefault();
         const { email, nickname, password, repeatPassword } = e.target;
         this.setState({ error: null })
+        if(email.value && nickname.value && password.value && repeatPassword.value) {
+            this.setState({isLoading: true})
+        }
         if(password.value !== repeatPassword.value) {
-            this.setState({ error: "passwords do not match" })
+            this.setState({ error: "passwords do not match", isLoading: false })
         } else {
             AuthAPIService.postUser({
                 email: email.value,
                 nickname: nickname.value,
                 password: password.value
             }).then(user => {
+                this.setState({isLoading: false})
                 this.props.history.push('/sign-in')
             }).catch((res) => {
                 if(res.message.includes('duplicate key')){
-                    this.setState({error: 'That email already exists'});
+                    this.setState({ error: 'That email already exists', isLoading: false });
                 } else {
-                    this.setState({ error: res.message })
+                    this.setState({ error: res.message, isLoading: false })
                 }
             })
         }
     }
 
     render() {
+        if(this.state.isLoading) {
+            return (
+                <div className="loader">
+                    <ReactLoading type={"spin"} color={"#6aa355"} />
+                </div>
+            )
+        }
         return (
             <>
                 <header className="landing-nav">
