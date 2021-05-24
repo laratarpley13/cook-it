@@ -68,11 +68,31 @@ header h1:hover {
 .recipe .delete-rec {
     margin-top: 10px;
     margin-bottom: 20px;
+    margin-right: 5px;
     border: 0;
     border-radius: 5px;
     color: white;
     background-color: darkred;
-    padding: 5px;
+    padding: 10px;
+}
+
+.recipe .delete-rec i {
+    font-size: 17px;
+}
+
+.recipe .edit-rec {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-left: 5px;
+    border: 0;
+    border-radius: 5px;
+    color: white;
+    background-color: #6aa355;
+    padding: 10px;
+}
+
+.recipe .edit-rec i {
+    font-size: 17px;
 }
 
 .tag-container {
@@ -125,12 +145,17 @@ header h1:hover {
     padding: 15px 15px 15px 15px;
 }
 
-.comment .delete-com {
+.user-comments .comment .delete-com {
     margin-top: 10px;
     margin-bottom: 20px;
+    margin-right: 5px;
     border: 0;
     border-radius: 5px;
     color: white;
     background-color: darkred;
-    padding: 5px;
+    padding: 10px;
+}
+
+.user-comments .comment .delete-com i {
+    font-size: 17px;
 }

@@ -180,10 +180,15 @@ class UserView extends Component{
                                     <span key={tagid} className="tag">{tags.find(t => t.id === tagid).title}</span>
                                 )}
                             </div>
-                            {user.id === this.state.pageUser.id ? <button className="delete-rec" onClick={(e) => {
-                                e.stopPropagation();
-                                this.recipeDelete(recipe.id);
-                            }}>Delete</button> : null}
+                            {user.id === this.state.pageUser.id ? 
+                                <>
+                                <button className="delete-rec" onClick={(e) => {
+                                    e.stopPropagation();
+                                    this.recipeDelete(recipe.id);
+                                }}><i className="fas fa-trash-alt"></i></button> 
+                                <button className="edit-rec"><i className="fas fa-edit"></i></button>
+                                </>
+                                : null}
                         </div>
                         )
                     }
@@ -199,7 +204,7 @@ class UserView extends Component{
                             {user.id === this.state.pageUser.id ? <button className="delete-com" onClick={(e) => {
                                 e.stopPropagation()
                                 this.commentDelete(comment.id);
-                            }}>Delete</button> : null}
+                            }}><i className="fas fa-trash-alt"></i></button> : null}
                         </div>  
                     )
                     }
